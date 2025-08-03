@@ -25,6 +25,12 @@ jobs:
           # Construimos el nombre final del repositorio
           repo_name="${user_login_lower}-${sanitized_name}"
           
+          # Validamos la longitud del nombre del repositorio
+          if [ ${#repo_name} -gt 80 ]; then
+            echo "::error::El nombre del repositorio es demasiado largo. El máximo es 80 caracteres."
+            exit 1
+          fi
+          
           # Guardamos el nombre para usarlo en los siguientes pasos
           echo "repo_name=$repo_name" >> $GITHUB_ENV
 
@@ -39,6 +45,17 @@ jobs:
             https://api.github.com/orgs/UPTPC/repos \
             -d '{"name":"${{ env.repo_name }}","description":"Proyecto sociotecnológico de ${{ github.event.issue.user.login }}"}'
 
+      - name: Add collaborator
+        if: success() && startsWith(github.event.issue.title, 'Crear mi repositorio ')
+        run: |
+          curl -L \
+            -X PUT \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.REPO_CREATOR_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/UPTPC/${{ env.repo_name }}/collaborators/${{ github.event.issue.user.login }} \
+            -d '{"permission":"push"}'
+
       - name: Comment on issue
         if: success()
         uses: actions/github-script@v6
@@ -48,5 +65,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `¡Hola @${{ github.event.issue.user.login }}! Tu repositorio para el proyecto Sociotecnológico ha sido creado: https://github.com/UPTPC/${{ env.repo_name }}`
+              body: `¡Hola @${{ github.event.issue.user.login }}! Tu repositorio para el proyecto Sociotecnológico ha sido creado y ya tienes permisos para subir archivos. Puedes acceder a él en: https://github.com/UPTPC/${{ env.repo_name }}`
             })
