@@ -1,52 +1,46 @@
 name: Crear Repositorio para Estudiante
 
+on:
+  issues:
+    types: [opened]
+
 permissions:
   contents: write
   issues: write
   pull-requests: write
-  actions: write
-  checks: write
-  statuses: write
-  deployments: write
-  packages: write
-  pages: write
   repository-projects: write
-  security-events: write
-
-on:
-  issues:
-    types: [opened]
 
 jobs:
   create-repo:
     runs-on: ubuntu-latest
     steps:
-      - name: Verificar el título del Issue
-        if: github.event.issue.title == 'Crear mi repositorio TITULO DEL PROYECTO'
-        run: echo "Título OK. Iniciando la creación del repositorio..."
+      - name: Verificar título del Issue
+        if: github.event.issue.title != 'Crear mi repositorio'
+        run: exit 1  # Falla si el título no coincide
 
       - name: Crear Repositorio
-        if: github.event.issue.title == 'Crear mi repositorio'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_USERNAME: ${{ github.event.issue.user.login }}
         run: |
-          REPO_NAME="proyecto-${GITHUB_USERNAME}"
-          # Crea el repositorio en la organización
+          REPO_NAME="proyecto-$GITHUB_USERNAME"
+          # 1. Crear repositorio
           curl -X POST \
-          -H "Authorization: Bearer ${{ env.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/orgs/UPTPC/repos \
-          -d "{\"name\":\"$REPO_NAME\", \"private\":false}"
-          # Asigna permisos de escritura al estudiante
+            -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"name":"'"$REPO_NAME"'", "private":false}' \
+            https://api.github.com/orgs/UPTPC/repos
+
+          # 2. Añadir colaborador
           curl -X PUT \
-          -H "Authorization: Bearer ${{ env.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/UPTPC/$REPO_NAME/collaborators/$GITHUB_USERNAME \
-          -d '{"permission":"push"}'
-          # Comentar en el issue para notificar al estudiante
+            -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"permission":"push"}' \
+            https://api.github.com/repos/UPTPC/$REPO_NAME/collaborators/$GITHUB_USERNAME
+
+          # 3. Notificar en el issue
           curl -X POST \
-          -H "Authorization: Bearer ${{ env.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/UPTPC/proyecto-automatizacion/issues/${{ github.event.issue.number }}/comments \
-          -d "{\"body\":\"¡Tu repositorio ha sido creado! Puedes encontrarlo en https://github.com/UPTPC/$REPO_NAME\"}"
+            -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"body":"¡Repositorio creado! Accede aquí: https://github.com/UPTPC/'"$REPO_NAME"'"}' \
+            https://api.github.com/repos/UPTPC/proyecto-automatizacion/issues/${{ github.event.issue.number }}/comments
