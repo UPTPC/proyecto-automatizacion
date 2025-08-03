@@ -11,7 +11,9 @@ on:
 
 jobs:
   create-repo:
-    runs-on: ubuntu-latest
+   runs-on:
+      group: Standard GitHub-hosted runners
+      labels: ubuntu-latest
     # La condición ahora se verifica a nivel del job. Si no se cumple, el job ni siquiera se inicia.
     if: startsWith(github.event.issue.title, 'Crear mi repositorio')
 
