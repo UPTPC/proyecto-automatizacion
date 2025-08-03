@@ -1,5 +1,5 @@
 # proyecto-automatizacion
-proyecto automatización
+Proyecto Automatización de Repositorios en Organizacion UPTPC
 
 <!--
 **UPTPC/UPTPC** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
