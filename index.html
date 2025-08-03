@@ -1,65 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Crear tu Proyecto</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear tu Proyecto - UPTPC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f6f8fa; }
-        h1 { color: #24292e; }
-        p { color: #586069; max-width: 600px; margin: 20px auto; }
-        .container { background-color: white; padding: 40px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: inline-block; }
-        #project-name { 
-            padding: 10px; 
-            font-size: 1em; 
-            border-radius: 6px; 
-            border: 1px solid #d1d5da; 
-            width: 300px; 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f6f8fa;
+        }
+        .logo-header {
+            max-width: 250px;
+            margin-top: 20px;
+        }
+        .container-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .logo-footer {
+            height: 100px;
+            margin: 0 10px;
+            max-width: 100%;
+        }
+        .footer-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
             margin-bottom: 20px;
         }
-        .btn {
-            background-color: #2ea44f;
-            color: white;
-            padding: 15px 25px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 1.2em;
-            border: none;
-            cursor: pointer;
-            display: inline-block;
+        footer {
+            color: #586069;
+            padding: 20px 0;
         }
-        .btn:hover { background-color: #2c974b; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Crea tu repositorio personal</h1>
-        <p>Escribe el nombre de tu proyecto en el campo de abajo y luego haz clic en el botón para iniciar la creación. El sistema creará un repositorio único para ti.</p>
-        
-        <input type="text" id="project-name" placeholder="Ej: mi-proyecto-de-robotica">
-        
-        <br>
 
-        <button onclick="createRepo()" class="btn">Empezar ahora</button>
-    </div>
+    <header class="text-center">
+        <img src="https://i.ibb.co/ZzBd0nQ1/LOGO.png" alt="Logo Universidad" class="img-fluid logo-header">
+    </header>
+
+    <main class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="container-content text-center">
+                    <h1 class="mb-3">Crea tu repositorio personal</h1>
+
+                    <p class="mb-4">Ingresa un nombre corto para tu repositorio y la descripción completa de tu proyecto. El sistema creará un repositorio único para ti.</p>
+
+                    <div class="mb-3">
+                        <label for="project-name" class="form-label">Nombre del Repositorio (máx. 100 caracteres)</label>
+                        <input type="text" id="project-name" class="form-control form-control-lg" placeholder="Ej: Proyecto de Robotica Educativa" maxlength="100">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="project-description" class="form-label">Descripción Completa del Proyecto</label>
+                        <textarea id="project-description" class="form-control form-control-lg" rows="4" placeholder="Ej: SISTEMA AUTOMATIZADO DE INFORMACIÓN DE REGISTRO Y CONTROL DE INVENTARIO DE MATERIA PRIMA..."></textarea>
+                    </div>
+
+                    <p class="text-muted small">
+                        A continuación, serás redirigido a GITHUB. Simplemente haz clic en el botón verde **"Create"** para confirmar la solicitud. El repositorio se creará automáticamente y podrás clonarlo y empezar a trabajar en él.
+                    </p>
+
+                    <button onclick="createRepo()" class="btn btn-success btn-lg">
+                        <i class="bi bi-github me-2"></i>Ir a GITHUB a Crear el Repositorio
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center mt-5">
+        <div class="container">
+            <div class="footer-logos">
+                <img src="https://i.ibb.co/RGnbnytc/9.png" alt="Ministerio de Educacion Universitaria" class="img-fluid logo-footer">
+                <img src="https://i.ibb.co/GfCTBxv3/8.png" alt="Ministerio de Ciencia y Tecnologia" class="img-fluid logo-footer">
+                <img src="https://i.ibb.co/QFz2DhKH/22.png" alt="Science and Tecnology Megazine" class="img-fluid logo-footer">
+            </div>
+            <p class="mb-1">
+                <a href="https://www.uptpc.edu.ve/sereinf" class="text-decoration-none" target="_blank">Servicio de Redes Informáticas SEREINF</a>
+            </p>
+            <p class="mb-1">Universidad Politécnica Territorial de Puerto Cabello UPTPC</p>
+            <p class="mb-0">RIF: G-20005608-8</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
         function createRepo() {
-            // Obtenemos el valor del campo de texto
             const projectName = document.getElementById('project-name').value;
+            const projectDescription = document.getElementById('project-description').value;
 
-            // Verificamos que el usuario haya escrito algo
             if (!projectName) {
-                alert('Por favor, escribe un nombre para tu proyecto.');
+                alert('Por favor, escribe un nombre para tu repositorio.');
                 return;
             }
 
-            // Construimos el título del issue
             const issueTitle = `Crear mi repositorio ${projectName}`;
-            
-            // Codificamos el título para que sea seguro en una URL
             const encodedTitle = encodeURIComponent(issueTitle);
-            
-            // Construimos la URL final y redirigimos al usuario
-            const repoUrl = 'https://github.com/UPTPC/proyecto-automatizacion/issues/new?title=' + encodedTitle;
+
+            const issueBody = `**Descripción Completa del Proyecto:**\n\n${projectDescription}`;
+            const encodedBody = encodeURIComponent(issueBody);
+
+            const repoUrl = `https://github.com/UPTPC/proyecto-automatizacion/issues/new?title=${encodedTitle}&body=${encodedBody}`;
+
             window.location.href = repoUrl;
         }
     </script>
