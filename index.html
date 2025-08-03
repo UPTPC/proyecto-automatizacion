@@ -3,7 +3,18 @@
 <head>
     <title>Crear tu Proyecto</title>
     <style>
-        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f6f8fa; }
+        h1 { color: #24292e; }
+        p { color: #586069; max-width: 600px; margin: 20px auto; }
+        .container { background-color: white; padding: 40px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: inline-block; }
+        #project-name { 
+            padding: 10px; 
+            font-size: 1em; 
+            border-radius: 6px; 
+            border: 1px solid #d1d5da; 
+            width: 300px; 
+            margin-bottom: 20px;
+        }
         .btn {
             background-color: #2ea44f;
             color: white;
@@ -11,12 +22,46 @@
             text-decoration: none;
             border-radius: 6px;
             font-size: 1.2em;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
         }
+        .btn:hover { background-color: #2c974b; }
     </style>
 </head>
 <body>
-    <h1>Crea tu repositorio personal</h1>
-    <p>Haz clic en el botón para iniciar la creación de tu proyecto. El sistema creará un repositorio único para ti.</p>
-    <a href="https://github.com/UPTPC/proyecto-automatizacion/issues/new?title=Crear mi repositorio" class="btn">Empezar ahora</a>
+    <div class="container">
+        <h1>Crea tu repositorio personal</h1>
+        <p>Escribe el nombre de tu proyecto en el campo de abajo y luego haz clic en el botón para iniciar la creación. El sistema creará un repositorio único para ti.</p>
+        
+        <input type="text" id="project-name" placeholder="Ej: mi-proyecto-de-robotica">
+        
+        <br>
+
+        <button onclick="createRepo()" class="btn">Empezar ahora</button>
+    </div>
+
+    <script>
+        function createRepo() {
+            // Obtenemos el valor del campo de texto
+            const projectName = document.getElementById('project-name').value;
+
+            // Verificamos que el usuario haya escrito algo
+            if (!projectName) {
+                alert('Por favor, escribe un nombre para tu proyecto.');
+                return;
+            }
+
+            // Construimos el título del issue
+            const issueTitle = `Crear mi repositorio ${projectName}`;
+            
+            // Codificamos el título para que sea seguro en una URL
+            const encodedTitle = encodeURIComponent(issueTitle);
+            
+            // Construimos la URL final y redirigimos al usuario
+            const repoUrl = 'https://github.com/UPTPC/proyecto-automatizacion/issues/new?title=' + encodedTitle;
+            window.location.href = repoUrl;
+        }
+    </script>
 </body>
 </html>
