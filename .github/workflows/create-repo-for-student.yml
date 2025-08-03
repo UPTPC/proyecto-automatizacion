@@ -1,17 +1,9 @@
 name: Crear Repositorio para Estudiante
 
+# Solo se necesitan estos permisos para la tarea
 permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-  actions: write
-  checks: write
-  statuses: write
-  deployments: write
-  packages: write
-  pages: write
-  repository-projects: write
-  security-events: write
+  contents: write  # Para crear/administrar repositorios en la organización
+  issues: write    # Para poder comentar en el issue
 
 on:
   issues:
@@ -20,33 +12,41 @@ on:
 jobs:
   create-repo:
     runs-on: ubuntu-latest
-    steps:
-      - name: Verificar el título del Issue
-        if: github.event.issue.title == 'Crear mi repositorio TITULO DEL PROYECTO'
-        run: echo "Título OK. Iniciando la creación del repositorio..."
+    # La condición ahora se verifica a nivel del job. Si no se cumple, el job ni siquiera se inicia.
+    if: startsWith(github.event.issue.title, 'Crear mi repositorio')
 
-      - name: Crear Repositorio
-        if: github.event.issue.title == 'Crear mi repositorio'
+    steps:
+      - name: Crear Repositorio y Asignar Colaborador
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_USERNAME: ${{ github.event.issue.user.login }}
+          ORG_NAME: "UPTPC" # Nombre de tu organización
+          STUDENT_USERNAME: ${{ github.event.issue.user.login }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          REPO_NAME="proyecto-${GITHUB_USERNAME}"
-          # Crea el repositorio en la organización
-          curl -X POST \
-          -H "Authorization: Bearer ${{ env.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/orgs/UPTPC/repos \
-          -d "{\"name\":\"$REPO_NAME\", \"private\":false}"
-          # Asigna permisos de escritura al estudiante
-          curl -X PUT \
-          -H "Authorization: Bearer ${{ env.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/UPTPC/$REPO_NAME/collaborators/$GITHUB_USERNAME \
-          -d '{"permission":"push"}'
-          # Comentar en el issue para notificar al estudiante
-          curl -X POST \
-          -H "Authorization: Bearer ${{ env.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/UPTPC/proyecto-automatizacion/issues/${{ github.event.issue.number }}/comments \
-          -d "{\"body\":\"¡Tu repositorio ha sido creado! Puedes encontrarlo en https://github.com/UPTPC/$REPO_NAME\"}"
+          # Extraemos el título del proyecto del issue, quitando la parte "Crear mi repositorio "
+          # Ejemplo: Si el título es "Crear mi repositorio mi-proyecto-genial", PROJECT_TITLE será "mi-proyecto-genial"
+          PROJECT_TITLE=$(echo "${{ github.event.issue.title }}" | sed 's/Crear mi repositorio //')
+
+          # Si el título era solo "Crear mi repositorio", usamos el nombre del usuario como fallback
+          if [ -z "$PROJECT_TITLE" ] || [ "$PROJECT_TITLE" == "Crear mi repositorio" ]; then
+            PROJECT_TITLE="proyecto"
+          fi
+          
+          # Reemplazamos espacios por guiones para un nombre de repo válido
+          REPO_NAME_SLUG=$(echo "$PROJECT_TITLE" | tr ' ' '-')
+
+          # Creamos el nombre final del repositorio
+          REPO_NAME="${REPO_NAME_SLUG}-${STUDENT_USERNAME}"
+
+          echo "Creando repositorio llamado: $REPO_NAME para el usuario: $STUDENT_USERNAME"
+
+          # 1. Crear el repositorio en la organización usando la CLI de GitHub
+          gh repo create ${ORG_NAME}/${REPO_NAME} --public --description "Repositorio para el proyecto de ${STUDENT_USERNAME}"
+
+          # 2. Añadir al estudiante como colaborador con permisos de escritura (push)
+          gh repo collaborator add ${ORG_NAME}/${REPO_NAME} ${STUDENT_USERNAME} --permission push
+
+          # 3. Comentar en el issue para notificar que se ha creado
+          REPO_URL="https://github.com/${ORG_NAME}/${REPO_NAME}"
+          COMMENT_BODY="¡Felicidades @${STUDENT_USERNAME}! Tu repositorio **${REPO_NAME}** ha sido creado exitosamente. Puedes acceder a él aquí: ${REPO_URL}"
+          gh issue comment ${ISSUE_NUMBER} --body "$COMMENT_BODY"
