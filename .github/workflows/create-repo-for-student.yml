@@ -1,5 +1,18 @@
 name: Crear Repositorio para Estudiante
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  actions: write
+  checks: write
+  statuses: write
+  deployments: write
+  packages: write
+  pages: write
+  repository-projects: write
+  security-events: write
+
 on:
   issues:
     types: [opened]
