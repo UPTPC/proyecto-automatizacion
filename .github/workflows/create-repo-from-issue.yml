@@ -7,9 +7,8 @@ jobs:
   create-repo:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Para escribir en el repo, si es necesario
-      issues: write # Para comentar en el issue
-      repository: write # Necesario para crear un repo
+      contents: write
+      issues: write
     steps:
       - name: Extract project name
         id: extract
@@ -28,11 +27,6 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/orgs/UPTPC/repos \
             -d '{"name":"${{ env.project_name }}","description":"Proyecto sociotecnológico de ${{ github.event.issue.user.login }}"}'
-
-      - name: Add collaborators
-        # Este paso sería más complejo para asignar permisos, pero es posible.
-        # Por ahora, la API de creación de repos ya podría asignar al creador.
-        run: echo "Repository created. Now add collaborators."
 
       - name: Comment on issue
         if: success()
