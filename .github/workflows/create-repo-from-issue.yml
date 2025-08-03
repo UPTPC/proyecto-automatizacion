@@ -10,12 +10,23 @@ jobs:
       contents: write
       issues: write
     steps:
-      - name: Extract project name
+      - name: Extract and sanitize project name
         id: extract
         run: |
+          # Extraemos el nombre del issue
           title="${{ github.event.issue.title }}"
-          project_name=$(echo "$title" | sed 's/Crear mi repositorio //')
-          echo "project_name=$project_name" >> $GITHUB_ENV
+          
+          # Reemplazamos los espacios por guiones y convertimos a minúsculas
+          sanitized_name=$(echo "$title" | sed 's/Crear mi repositorio //g' | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+
+          # Obtenemos el nombre de usuario en minúsculas
+          user_login_lower=$(echo "${{ github.event.issue.user.login }}" | tr '[:upper:]' '[:lower:]')
+
+          # Construimos el nombre final del repositorio
+          repo_name="${user_login_lower}-${sanitized_name}"
+          
+          # Guardamos el nombre para usarlo en los siguientes pasos
+          echo "repo_name=$repo_name" >> $GITHUB_ENV
 
       - name: Create repository
         if: startsWith(github.event.issue.title, 'Crear mi repositorio ')
@@ -26,7 +37,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.REPO_CREATOR_TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/orgs/UPTPC/repos \
-            -d '{"name":"${{ env.project_name }}","description":"Proyecto sociotecnológico de ${{ github.event.issue.user.login }}"}'
+            -d '{"name":"${{ env.repo_name }}","description":"Proyecto sociotecnológico de ${{ github.event.issue.user.login }}"}'
 
       - name: Comment on issue
         if: success()
@@ -37,5 +48,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `¡Hola @${{ github.event.issue.user.login }}! Tu repositorio para el proyecto Sociotecnológico ha sido creado: https://github.com/UPTPC/${{ env.project_name }}`
+              body: `¡Hola @${{ github.event.issue.user.login }}! Tu repositorio para el proyecto Sociotecnológico ha sido creado: https://github.com/UPTPC/${{ env.repo_name }}`
             })
