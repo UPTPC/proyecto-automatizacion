@@ -65,5 +65,8 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `¡Hola @${{ github.event.issue.user.login }}! Tu repositorio para el proyecto Sociotecnológico ha sido creado y ya tienes permisos para subir archivos. Puedes acceder a él en: https://github.com/UPTPC/${{ env.repo_name }}`
+              body: `¡Hola @${{ github.event.issue.user.login }}! Tu repositorio para el proyecto Sociotecnológico ha sido creado y ya tienes permisos para subir archivos.
+              Puedes acceder a él en: https://github.com/UPTPC/${{ env.repo_name }}
+              **Paso importante:** Para poder subir archivos, debes aceptar la invitación a ser colaborador.
+              Revisa este enlace para aceptar los permisos: **👉 https://github.com/UPTPC/${{ env.repo_name }}/invitations**`
             })
