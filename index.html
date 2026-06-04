@@ -38,6 +38,77 @@
             color: #586069;
             padding: 20px 0;
         }
+        .section-card {
+            border: 1px solid #d0d7de;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f6f8fa;
+            transition: all 0.3s ease;
+        }
+        .section-card.active-section {
+            border-color: #2da44e;
+            background-color: #f0fff4;
+        }
+        .section-card.disabled-section {
+            opacity: 0.5;
+            pointer-events: none;
+            background-color: #f0f0f0;
+        }
+        .section-card .section-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #24292f;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-card .section-title i {
+            color: #57606a;
+        }
+        .no-aplica-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            color: #57606a;
+            cursor: pointer;
+        }
+        .no-aplica-check input[type="checkbox"] {
+            cursor: pointer;
+        }
+        .no-aplica-badge {
+            display: inline-block;
+            background-color: #d1242f;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .rol-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .rol-estudiante { background-color: #ddf4ff; color: #0969da; }
+        .rol-profesor { background-color: #dafbe1; color: #1a7f37; }
+        .rol-no-aplica { background-color: #fff8c5; color: #9a6700; }
+        .tutor-fields {
+            transition: opacity 0.3s ease;
+        }
+        .tutor-fields.collapsed {
+            opacity: 0.3;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -54,51 +125,128 @@
 
                     <p class="mb-4">Ingresa un nombre corto para tu repositorio y la descripción completa de tu proyecto. El sistema creará un repositorio único para ti.</p>
 
+                    <!-- ========== ROL DEL SOLICITANTE ========== -->
                     <div class="mb-4">
-    <label for="programa-formacion" class="form-label">Programa de Formación</label>
-    <select id="programa-formacion" class="form-select" required>
-        <option value="" disabled selected>Seleccione una opción</option>
-        <option>PT en Mecánica Térmica</option>
-        <option>PT en Mecánica Automotriz</option>
-        <option>PNF en Materiales Industriales</option>
-        <option>PNF en Mantenimiento</option>
-        <option>PNF en Mecánica</option>
-        <option>PNF en Turismo</option>
-        <option>PNF en Informática</option>
-        <option>PNF en Distribucion y Logística</option>
-    </select>
-</div>
+                        <label for="rol-solicitante" class="form-label fw-semibold">Rol del Solicitante</label>
+                        <select id="rol-solicitante" class="form-select" onchange="onRolChange()">
+                            <option value="" disabled selected>Seleccione su rol</option>
+                            <option value="Estudiante">Estudiante</option>
+                            <option value="Profesor">Profesor</option>
+                            <option value="NO APLICA">NO APLICA</option>
+                        </select>
+                    </div>
 
-<div class="mb-4">
-    <label for="tipo-titulo" class="form-label">Para optar al título de</label>
-    <select id="tipo-titulo" class="form-select" required>
-        <option value="" disabled selected>Seleccione una opción</option>
-        <option>TSU</option>
-        <option>Licenciatura</option>
-        <option>Ingeniería</option>
-    </select>
-</div>
-
+                    <!-- ========== PROGRAMA DE FORMACIÓN ========== -->
                     <div class="mb-4">
-                        <label class="form-label">Nombre Completo y Cédula de los Autores</label>
+                        <label for="programa-formacion" class="form-label">Programa de Formación</label>
+                        <select id="programa-formacion" class="form-select" required>
+                            <option value="" disabled selected>Seleccione una opción</option>
+                            <option>PT en Mecánica Térmica</option>
+                            <option>PT en Mecánica Automotriz</option>
+                            <option>PNF en Materiales Industriales</option>
+                            <option>PNF en Mantenimiento</option>
+                            <option>PNF en Mecánica</option>
+                            <option>PNF en Turismo</option>
+                            <option>PNF en Informática</option>
+                            <option>PNF en Distribucion y Logística</option>
+                        </select>
+                    </div>
+
+                    <!-- ========== TIPO DE TÍTULO ========== -->
+                    <div class="mb-4">
+                        <label for="tipo-titulo" class="form-label">Para optar al título de</label>
+                        <select id="tipo-titulo" class="form-select" required>
+                            <option value="" disabled selected>Seleccione una opción</option>
+                            <option>TSU</option>
+                            <option>Licenciatura</option>
+                            <option>Ingeniería</option>
+                        </select>
+                    </div>
+
+                    <!-- ========== AUTORES (ESTUDIANTES / PROFESORES) ========== -->
+                    <div class="section-card" id="autores-section">
+                        <div class="section-title">
+                            <i class="bi bi-people-fill"></i>
+                            <span id="autores-label">Nombre Completo y Cédula de los Autores</span>
+                        </div>
                         <div id="users-list"></div>
                         <button type="button" class="btn btn-primary btn-sm mt-2" onclick="addUser()">
-                            <i class="bi bi-plus-lg"></i> Agregar Usuario
+                            <i class="bi bi-plus-lg"></i> Agregar Autor
                         </button>
                     </div>
 
+                    <!-- ========== TUTOR METODOLÓGICO ========== -->
+                    <div class="section-card" id="tutor-metodologico-section">
+                        <div class="section-title">
+                            <i class="bi bi-person-workspace"></i>
+                            Tutor Metodológico
+                        </div>
+                        <label class="no-aplica-check">
+                            <input type="checkbox" id="no-aplica-tutor-metodologico" onchange="toggleTutorSection('metodologico')">
+                            <span>NO APLICA</span>
+                            <span class="no-aplica-badge" id="badge-metodologico" style="display:none;">Inactivo</span>
+                        </label>
+                        <div class="tutor-fields" id="tutor-metodologico-fields">
+                            <div class="row align-items-end mb-2">
+                                <div class="col-md-5 mb-2 mb-md-0">
+                                    <input type="text" class="form-control" id="tutor-metodologico-nombre" placeholder="Nombre Completo">
+                                </div>
+                                <div class="col-md-2 mb-2 mb-md-0">
+                                    <select class="form-select" id="tutor-metodologico-tipo-ci">
+                                        <option value="V">V</option>
+                                        <option value="E">E</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <input type="text" class="form-control" id="tutor-metodologico-cedula" placeholder="Cédula">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== TUTOR EMPRESARIAL ========== -->
+                    <div class="section-card" id="tutor-empresarial-section">
+                        <div class="section-title">
+                            <i class="bi bi-building"></i>
+                            Tutor Empresarial
+                        </div>
+                        <label class="no-aplica-check">
+                            <input type="checkbox" id="no-aplica-tutor-empresarial" onchange="toggleTutorSection('empresarial')">
+                            <span>NO APLICA</span>
+                            <span class="no-aplica-badge" id="badge-empresarial" style="display:none;">Inactivo</span>
+                        </label>
+                        <div class="tutor-fields" id="tutor-empresarial-fields">
+                            <div class="row align-items-end mb-2">
+                                <div class="col-md-5 mb-2 mb-md-0">
+                                    <input type="text" class="form-control" id="tutor-empresarial-nombre" placeholder="Nombre Completo">
+                                </div>
+                                <div class="col-md-2 mb-2 mb-md-0">
+                                    <select class="form-select" id="tutor-empresarial-tipo-ci">
+                                        <option value="V">V</option>
+                                        <option value="E">E</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <input type="text" class="form-control" id="tutor-empresarial-cedula" placeholder="Cédula">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== NOMBRE DEL REPOSITORIO ========== -->
                     <div class="mb-3">
                         <label for="project-name" class="form-label">Nombre del Repositorio (máx. 80 caracteres)</label>
                         <input type="text" id="project-name" class="form-control form-control-lg" placeholder="Ej: Proyecto de Robotica Educativa" maxlength="80">
                     </div>
 
+                    <!-- ========== DESCRIPCIÓN DEL PROYECTO ========== -->
                     <div class="mb-4">
                         <label for="project-description" class="form-label">Descripción Completa del Proyecto</label>
                         <textarea id="project-description" class="form-control form-control-lg" rows="4" placeholder="Ej: SISTEMA AUTOMATIZADO DE INFORMACIÓN DE REGISTRO Y CONTROL DE INVENTARIO DE MATERIA PRIMA..."></textarea>
                     </div>
 
                     <p class="text-muted small">
-                        A continuación, serás redirigido a GITHUB. Simplemente haz clic en el botón verde **"Create"** para confirmar la solicitud. El repositorio se creará automáticamente y podrás clonarlo y empezar a trabajar en él.
+                        A continuación, serás redirigido a GITHUB. Simplemente haz clic en el botón verde <strong>"Create"</strong> para confirmar la solicitud. El repositorio se creará automáticamente y podrás clonarlo y empezar a trabajar en él.
                     </p>
 
                     <button onclick="createRepo()" class="btn btn-success btn-lg">
@@ -127,142 +275,269 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
-        // Inicializar con un usuario
-    // document.addEventListener('DOMContentLoaded', () => addUser());
+        // ============================
+        // CAMBIO DE ROL
+        // ============================
+        function onRolChange() {
+            const rol = document.getElementById('rol-solicitante').value;
+            const autoresLabel = document.getElementById('autores-label');
+            const addBtn = document.querySelector('#autores-section .btn-primary');
+            const tutorMetSection = document.getElementById('tutor-metodologico-section');
+            const tutorEmpSection = document.getElementById('tutor-empresarial-section');
+            const tipoTituloGroup = document.getElementById('tipo-titulo').closest('.mb-4');
 
-function addUser() {
-    const usersList = document.getElementById('users-list');
-    const userDiv = document.createElement('div');
-    userDiv.className = 'row align-items-end mb-2';
-    userDiv.innerHTML = `
-        <div class="col-md-5 mb-2 mb-md-0">
-            <input type="text" class="form-control nombre-input" placeholder="Nombre Completo" required>
-        </div>
-        <div class="col-md-2 mb-2 mb-md-0">
-            <select class="form-select">
-                <option value="V">V</option>
-                <option value="E">E</option>
-            </select>
-        </div>
-        <div class="col-md-3 mb-2 mb-md-0">
-            <input type="text" class="form-control cedula-input" placeholder="Cédula" required pattern="\\d+">
-        </div>
-        <div class="col-md-2 text-end">
-            <button type="button" class="btn btn-danger btn-sm remove-user-btn" onclick="removeUser(this)">
-                <i class="bi bi-dash-lg"></i>
-            </button>
-        </div>
-    `;
-    usersList.appendChild(userDiv);
-    updateRemoveButtons();
-    setNombreInputEvents(userDiv.querySelector('.nombre-input'));
-    setCedulaInputEvents(userDiv.querySelector('.cedula-input'));
-}
+            // Resetear usuarios al cambiar de rol
+            document.getElementById('users-list').innerHTML = '';
 
-function setNombreInputEvents(input) {
-    input.addEventListener('input', function () {
-        // Solo letras y espacios, sin números ni signos de puntuación
-        let value = this.value.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]/g, '');
-        // Convertir a mayúsculas
-        value = value.toUpperCase();
-        this.value = value;
-    });
-}
+            if (rol === 'Estudiante') {
+                autoresLabel.textContent = 'Nombre Completo y Cédula de los Autores (Estudiantes)';
+                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Estudiante';
+                tutorMetSection.style.display = '';
+                tutorEmpSection.style.display = '';
+                tipoTituloGroup.style.display = '';
+            } else if (rol === 'Profesor') {
+                autoresLabel.textContent = 'Nombre Completo y Cédula del Profesor';
+                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Profesor';
+                tutorMetSection.style.display = 'none';
+                tutorEmpSection.style.display = 'none';
+                tipoTituloGroup.style.display = 'none';
+            } else if (rol === 'NO APLICA') {
+                autoresLabel.textContent = 'Nombre Completo y Cédula del Solicitante';
+                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Solicitante';
+                tutorMetSection.style.display = 'none';
+                tutorEmpSection.style.display = 'none';
+                tipoTituloGroup.style.display = 'none';
+            }
 
-function setCedulaInputEvents(input) {
-    input.addEventListener('input', function () {
-        // Solo números
-        this.value = this.value.replace(/\D/g, '');
-    });
-}
+            // Agregar un usuario inicial
+            addUser();
+        }
 
-// Al inicializar, también aplica el evento
-document.addEventListener('DOMContentLoaded', () => {
-    addUser();
-    setTimeout(() => {
-        const nombreInputs = document.querySelectorAll('.nombre-input');
-        nombreInputs.forEach(setNombreInputEvents);
-        const cedulaInputs = document.querySelectorAll('.cedula-input');
-        cedulaInputs.forEach(setCedulaInputEvents);
-    }, 100);
-});
+        // ============================
+        // TOGGLE NO APLICA PARA TUTORES
+        // ============================
+        function toggleTutorSection(tipo) {
+            const checkbox = document.getElementById(`no-aplica-tutor-${tipo}`);
+            const fields = document.getElementById(`tutor-${tipo}-fields`);
+            const badge = document.getElementById(`badge-${tipo}`);
 
-function removeUser(btn) {
-    const userDiv = btn.closest('.row');
-    userDiv.remove();
-    updateRemoveButtons();
-}
-
-function updateRemoveButtons() {
-    const usersList = document.getElementById('users-list');
-    const removeBtns = usersList.querySelectorAll('.remove-user-btn');
-    if (removeBtns.length === 1) {
-        removeBtns[0].style.display = 'none';
-    } else {
-        removeBtns.forEach(btn => btn.style.display = '');
-    }
-}
-
-    function getUsersData() {
-        const usersList = document.getElementById('users-list');
-        const users = [];
-        for (const row of usersList.children) {
-            const name = row.querySelector('input[type="text"]').value.trim();
-            const type = row.querySelector('select').value;
-            const cedulaInput = row.querySelectorAll('input[type="text"]')[1];
-            let cedula = cedulaInput.value.trim().replace(/\D/g, ''); // Solo números
-            if (name && cedula) {
-                // Formato V-0000000 o E-0000000
-                users.push(`${name} C.I.: ${type}-${cedula}`);
+            if (checkbox.checked) {
+                fields.classList.add('collapsed');
+                badge.style.display = 'inline-block';
+                // Limpiar campos
+                document.getElementById(`tutor-${tipo}-nombre`).value = '';
+                document.getElementById(`tutor-${tipo}-cedula`).value = '';
+            } else {
+                fields.classList.remove('collapsed');
+                badge.style.display = 'none';
             }
         }
-        return users;
-    }
 
-    function createRepo() {
-        const projectName = document.getElementById('project-name').value;
-        const projectDescription = document.getElementById('project-description').value;
-        const programaFormacion = document.getElementById('programa-formacion').value;
-        const tipoTitulo = document.getElementById('tipo-titulo').value;
-
-        if (!projectName) {
-            alert('Por favor, escribe un nombre para tu repositorio.');
-            return;
+        // ============================
+        // GESTIÓN DE USUARIOS (AUTORES/PROFESORES)
+        // ============================
+        function addUser() {
+            const usersList = document.getElementById('users-list');
+            const userDiv = document.createElement('div');
+            userDiv.className = 'row align-items-end mb-2';
+            userDiv.innerHTML = `
+                <div class="col-md-5 mb-2 mb-md-0">
+                    <input type="text" class="form-control nombre-input" placeholder="Nombre Completo" required>
+                </div>
+                <div class="col-md-2 mb-2 mb-md-0">
+                    <select class="form-select tipo-ci-select">
+                        <option value="V">V</option>
+                        <option value="E">E</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <input type="text" class="form-control cedula-input" placeholder="Cédula" required pattern="\\d+">
+                </div>
+                <div class="col-md-2 text-end">
+                    <button type="button" class="btn btn-danger btn-sm remove-user-btn" onclick="removeUser(this)">
+                        <i class="bi bi-dash-lg"></i>
+                    </button>
+                </div>
+            `;
+            usersList.appendChild(userDiv);
+            updateRemoveButtons();
+            setNombreInputEvents(userDiv.querySelector('.nombre-input'));
+            setCedulaInputEvents(userDiv.querySelector('.cedula-input'));
         }
-        if (!programaFormacion) {
-            alert('Por favor, selecciona el Programa de Formación.');
-            return;
-        }
-        if (!tipoTitulo) {
-            alert('Por favor, selecciona el tipo de título.');
-            return;
-        }
 
-        const users = getUsersData();
-        if (users.length === 0) {
-            alert('Debes agregar al menos un Autor con Nombre y Cédula.');
-            return;
+        function setNombreInputEvents(input) {
+            input.addEventListener('input', function () {
+                let value = this.value.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]/g, '');
+                value = value.toUpperCase();
+                this.value = value;
+            });
         }
 
-        const usersText = users.map((u, i) => `Autor ${i+1}: ${u}`).join('\n');
-        const issueTitle = `Crear mi repositorio ${projectName}`;
-        const encodedTitle = encodeURIComponent(issueTitle);
+        function setCedulaInputEvents(input) {
+            input.addEventListener('input', function () {
+                this.value = this.value.replace(/\D/g, '');
+            });
+        }
 
-        const issueBody = `**Programa de Formación:** ${programaFormacion}
-**Para optar al título de:** ${tipoTitulo}
+        // Eventos para los campos de tutores
+        function initTutorInputEvents() {
+            // Tutor Metodológico
+            const tmNombre = document.getElementById('tutor-metodologico-nombre');
+            const tmCedula = document.getElementById('tutor-metodologico-cedula');
+            setNombreInputEvents(tmNombre);
+            setCedulaInputEvents(tmCedula);
 
-**Autor/Autores:**
-${usersText}
+            // Tutor Empresarial
+            const teNombre = document.getElementById('tutor-empresarial-nombre');
+            const teCedula = document.getElementById('tutor-empresarial-cedula');
+            setNombreInputEvents(teNombre);
+            setCedulaInputEvents(teCedula);
+        }
 
-**Descripción Completa del Proyecto:**
+        function removeUser(btn) {
+            const userDiv = btn.closest('.row');
+            userDiv.remove();
+            updateRemoveButtons();
+        }
 
-${projectDescription}`;
-        const encodedBody = encodeURIComponent(issueBody);
+        function updateRemoveButtons() {
+            const usersList = document.getElementById('users-list');
+            const removeBtns = usersList.querySelectorAll('.remove-user-btn');
+            if (removeBtns.length === 1) {
+                removeBtns[0].style.display = 'none';
+            } else {
+                removeBtns.forEach(btn => btn.style.display = '');
+            }
+        }
 
-        const repoUrl = `https://github.com/UPTPC/proyecto-automatizacion/issues/new?title=${encodedTitle}&body=${encodedBody}`;
+        // ============================
+        // OBTENER DATOS DE USUARIOS
+        // ============================
+        function getUsersData() {
+            const usersList = document.getElementById('users-list');
+            const users = [];
+            for (const row of usersList.children) {
+                const name = row.querySelector('.nombre-input').value.trim();
+                const type = row.querySelector('.tipo-ci-select').value;
+                const cedulaInput = row.querySelector('.cedula-input');
+                let cedula = cedulaInput.value.trim().replace(/\D/g, '');
+                if (name && cedula) {
+                    users.push(`${name} C.I.: ${type}-${cedula}`);
+                }
+            }
+            return users;
+        }
 
-        window.location.href = repoUrl;
-    }
+        // ============================
+        // OBTENER DATOS DE TUTORES
+        // ============================
+        function getTutorData(tipo) {
+            const noAplica = document.getElementById(`no-aplica-tutor-${tipo}`).checked;
+            if (noAplica) {
+                return 'NO APLICA';
+            }
+            const nombre = document.getElementById(`tutor-${tipo}-nombre`).value.trim();
+            const tipoCi = document.getElementById(`tutor-${tipo}-tipo-ci`).value;
+            const cedula = document.getElementById(`tutor-${tipo}-cedula`).value.trim().replace(/\D/g, '');
+            if (nombre && cedula) {
+                return `${nombre} C.I.: ${tipoCi}-${cedula}`;
+            }
+            return '';
+        }
+
+        // ============================
+        // CREAR REPOSITORIO
+        // ============================
+        function createRepo() {
+            const rol = document.getElementById('rol-solicitante').value;
+            const projectName = document.getElementById('project-name').value;
+            const projectDescription = document.getElementById('project-description').value;
+            const programaFormacion = document.getElementById('programa-formacion').value;
+            const tipoTitulo = document.getElementById('tipo-titulo').value;
+
+            // Validaciones básicas
+            if (!rol) {
+                alert('Por favor, selecciona tu Rol de Solicitante.');
+                return;
+            }
+            if (!projectName) {
+                alert('Por favor, escribe un nombre para tu repositorio.');
+                return;
+            }
+            if (!programaFormacion) {
+                alert('Por favor, selecciona el Programa de Formación.');
+                return;
+            }
+            if (rol === 'Estudiante' && !tipoTitulo) {
+                alert('Por favor, selecciona el tipo de título.');
+                return;
+            }
+
+            const users = getUsersData();
+            if (users.length === 0) {
+                const rolLabel = rol === 'Estudiante' ? 'Estudiante' : (rol === 'Profesor' ? 'Profesor' : 'Solicitante');
+                alert(`Debes agregar al menos un ${rolLabel} con Nombre y Cédula.`);
+                return;
+            }
+
+            // Validar tutores solo si el rol es Estudiante
+            if (rol === 'Estudiante') {
+                const noAplicaMet = document.getElementById('no-aplica-tutor-metodologico').checked;
+                const noAplicaEmp = document.getElementById('no-aplica-tutor-empresarial').checked;
+
+                if (!noAplicaMet) {
+                    const tutorMet = getTutorData('metodologico');
+                    if (!tutorMet) {
+                        alert('Por favor, completa los datos del Tutor Metodológico o marca "NO APLICA".');
+                        return;
+                    }
+                }
+                if (!noAplicaEmp) {
+                    const tutorEmp = getTutorData('empresarial');
+                    if (!tutorEmp) {
+                        alert('Por favor, completa los datos del Tutor Empresarial o marca "NO APLICA".');
+                        return;
+                    }
+                }
+            }
+
+            // Construir el cuerpo del issue
+            const usersText = users.map((u, i) => `${rol} ${i + 1}: ${u}`).join('\n');
+
+            let issueBody = `**Rol del Solicitante:** ${rol}\n**Programa de Formación:** ${programaFormacion}`;
+
+            if (rol === 'Estudiante') {
+                issueBody += `\n**Para optar al título de:** ${tipoTitulo}`;
+            }
+
+            issueBody += `\n\n**${rol === 'Estudiante' ? 'Autor/Autores' : (rol === 'Profesor' ? 'Profesor(es)' : 'Solicitante(s)')}:**\n${usersText}`;
+
+            // Agregar tutores solo para Estudiantes
+            if (rol === 'Estudiante') {
+                const tutorMet = getTutorData('metodologico');
+                const tutorEmp = getTutorData('empresarial');
+                issueBody += `\n\n**Tutor Metodológico:** ${tutorMet}`;
+                issueBody += `\n**Tutor Empresarial:** ${tutorEmp}`;
+            }
+
+            issueBody += `\n\n**Descripción Completa del Proyecto:**\n\n${projectDescription}`;
+
+            const issueTitle = `Crear mi repositorio ${projectName}`;
+            const encodedTitle = encodeURIComponent(issueTitle);
+            const encodedBody = encodeURIComponent(issueBody);
+
+            const repoUrl = `https://github.com/UPTPC/proyecto-automatizacion/issues/new?title=${encodedTitle}&body=${encodedBody}`;
+
+            window.location.href = repoUrl;
+        }
+
+        // ============================
+        // INICIALIZACIÓN
+        // ============================
+        document.addEventListener('DOMContentLoaded', () => {
+            initTutorInputEvents();
+            // No agregar usuario hasta que se seleccione un rol
+        });
     </script>
 </body>
 </html>
