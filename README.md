@@ -44,7 +44,9 @@ A continuación, te explicamos el proceso para crear tu repositorio de Proyecto 
 
 **Paso 1: Ir a la herramienta de creación**
 Ve a la siguiente página web para comenzar:
-https://uptpc.github.io/proyecto-automatizacion/
+<div align="center">
+  <h2><a href="https://uptpc.github.io/proyecto-automatizacion/">https://uptpc.github.io/proyecto-automatizacion/</a></h2>
+</div>
 
 **Paso 2: Completar el formulario**
 En la página, encontrarás dos campos:
