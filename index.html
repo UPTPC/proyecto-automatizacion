@@ -109,6 +109,13 @@
             opacity: 0.3;
             pointer-events: none;
         }
+        .otro-input-wrapper {
+            display: none;
+            margin-top: 8px;
+        }
+        .otro-input-wrapper.visible {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -132,14 +139,20 @@
                             <option value="" disabled selected>Seleccione su rol</option>
                             <option value="Estudiante">Estudiante</option>
                             <option value="Profesor">Profesor</option>
+                            <option value="Administrativo">Administrativo</option>
+                            <option value="Obrero">Obrero</option>
+                            <option value="Otros">Otros</option>
                             <option value="NO APLICA">NO APLICA</option>
                         </select>
+                        <div class="otro-input-wrapper" id="rol-otro-wrapper">
+                            <input type="text" class="form-control" id="rol-otro-input" placeholder="Especifique su rol" maxlength="50">
+                        </div>
                     </div>
 
                     <!-- ========== PROGRAMA DE FORMACIÓN ========== -->
                     <div class="mb-4">
                         <label for="programa-formacion" class="form-label">Programa de Formación</label>
-                        <select id="programa-formacion" class="form-select" required>
+                        <select id="programa-formacion" class="form-select" required onchange="onProgramaChange()">
                             <option value="" disabled selected>Seleccione una opción</option>
                             <option>PT en Mecánica Térmica</option>
                             <option>PT en Mecánica Automotriz</option>
@@ -149,18 +162,28 @@
                             <option>PNF en Turismo</option>
                             <option>PNF en Informática</option>
                             <option>PNF en Distribucion y Logística</option>
+                            <option value="Otro">Otro</option>
                         </select>
+                        <div class="otro-input-wrapper" id="programa-otro-wrapper">
+                            <input type="text" class="form-control" id="programa-otro-input" placeholder="Especifique el programa de formación" maxlength="100">
+                        </div>
                     </div>
 
                     <!-- ========== TIPO DE TÍTULO ========== -->
                     <div class="mb-4">
                         <label for="tipo-titulo" class="form-label">Para optar al título de</label>
-                        <select id="tipo-titulo" class="form-select" required>
+                        <select id="tipo-titulo" class="form-select" required onchange="onTipoTituloChange()">
                             <option value="" disabled selected>Seleccione una opción</option>
                             <option>TSU</option>
                             <option>Licenciatura</option>
                             <option>Ingeniería</option>
+                            <option>Proyecto de Servicio Comunitario</option>
+                            <option>Informe de Practicas Profesionales</option>
+                            <option value="Otros">Otros</option>
                         </select>
+                        <div class="otro-input-wrapper" id="tipo-titulo-otro-wrapper">
+                            <input type="text" class="form-control" id="tipo-titulo-otro-input" placeholder="Especifique el tipo de producción intelectual" maxlength="100">
+                        </div>
                     </div>
 
                     <!-- ========== AUTORES (ESTUDIANTES / PROFESORES) ========== -->
@@ -204,11 +227,11 @@
                         </div>
                     </div>
 
-                    <!-- ========== TUTOR EMPRESARIAL ========== -->
+                    <!-- ========== TUTOR EMPRESARIAL O DE CONTENIDO ========== -->
                     <div class="section-card" id="tutor-empresarial-section">
                         <div class="section-title">
                             <i class="bi bi-building"></i>
-                            Tutor Empresarial
+                            Tutor Empresarial o de Contenido
                         </div>
                         <label class="no-aplica-check">
                             <input type="checkbox" id="no-aplica-tutor-empresarial" onchange="toggleTutorSection('empresarial')">
@@ -285,9 +308,18 @@
             const tutorMetSection = document.getElementById('tutor-metodologico-section');
             const tutorEmpSection = document.getElementById('tutor-empresarial-section');
             const tipoTituloGroup = document.getElementById('tipo-titulo').closest('.mb-4');
+            const rolOtroWrapper = document.getElementById('rol-otro-wrapper');
 
             // Resetear usuarios al cambiar de rol
             document.getElementById('users-list').innerHTML = '';
+
+            // Mostrar/ocultar campo "Otro" para el rol
+            if (rol === 'Otros') {
+                rolOtroWrapper.classList.add('visible');
+            } else {
+                rolOtroWrapper.classList.remove('visible');
+                document.getElementById('rol-otro-input').value = '';
+            }
 
             if (rol === 'Estudiante') {
                 autoresLabel.textContent = 'Nombre Completo y Cédula de los Autores (Estudiantes)';
@@ -301,6 +333,24 @@
                 tutorMetSection.style.display = 'none';
                 tutorEmpSection.style.display = 'none';
                 tipoTituloGroup.style.display = 'none';
+            } else if (rol === 'Administrativo') {
+                autoresLabel.textContent = 'Nombre Completo y Cédula del Administrativo';
+                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Administrativo';
+                tutorMetSection.style.display = 'none';
+                tutorEmpSection.style.display = 'none';
+                tipoTituloGroup.style.display = 'none';
+            } else if (rol === 'Obrero') {
+                autoresLabel.textContent = 'Nombre Completo y Cédula del Obrero';
+                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Obrero';
+                tutorMetSection.style.display = 'none';
+                tutorEmpSection.style.display = 'none';
+                tipoTituloGroup.style.display = 'none';
+            } else if (rol === 'Otros') {
+                autoresLabel.textContent = 'Nombre Completo y Cédula del Solicitante';
+                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Solicitante';
+                tutorMetSection.style.display = 'none';
+                tutorEmpSection.style.display = 'none';
+                tipoTituloGroup.style.display = 'none';
             } else if (rol === 'NO APLICA') {
                 autoresLabel.textContent = 'Nombre Completo y Cédula del Solicitante';
                 addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Solicitante';
@@ -311,6 +361,36 @@
 
             // Agregar un usuario inicial
             addUser();
+        }
+
+        // ============================
+        // CAMBIO DE PROGRAMA DE FORMACIÓN
+        // ============================
+        function onProgramaChange() {
+            const programa = document.getElementById('programa-formacion').value;
+            const programaOtroWrapper = document.getElementById('programa-otro-wrapper');
+
+            if (programa === 'Otro') {
+                programaOtroWrapper.classList.add('visible');
+            } else {
+                programaOtroWrapper.classList.remove('visible');
+                document.getElementById('programa-otro-input').value = '';
+            }
+        }
+
+        // ============================
+        // CAMBIO DE TIPO DE TÍTULO
+        // ============================
+        function onTipoTituloChange() {
+            const tipo = document.getElementById('tipo-titulo').value;
+            const tipoOtroWrapper = document.getElementById('tipo-titulo-otro-wrapper');
+
+            if (tipo === 'Otros') {
+                tipoOtroWrapper.classList.add('visible');
+            } else {
+                tipoOtroWrapper.classList.remove('visible');
+                document.getElementById('tipo-titulo-otro-input').value = '';
+            }
         }
 
         // ============================
@@ -387,7 +467,7 @@
             setNombreInputEvents(tmNombre);
             setCedulaInputEvents(tmCedula);
 
-            // Tutor Empresarial
+            // Tutor Empresarial o de Contenido
             const teNombre = document.getElementById('tutor-empresarial-nombre');
             const teCedula = document.getElementById('tutor-empresarial-cedula');
             setNombreInputEvents(teNombre);
@@ -446,6 +526,42 @@
         }
 
         // ============================
+        // OBTENER ROL FINAL (resuelve "Otros")
+        // ============================
+        function getRolFinal() {
+            const rol = document.getElementById('rol-solicitante').value;
+            if (rol === 'Otros') {
+                const otroVal = document.getElementById('rol-otro-input').value.trim();
+                return otroVal ? `Otros: ${otroVal}` : 'Otros';
+            }
+            return rol;
+        }
+
+        // ============================
+        // OBTENER PROGRAMA FINAL (resuelve "Otro")
+        // ============================
+        function getProgramaFinal() {
+            const programa = document.getElementById('programa-formacion').value;
+            if (programa === 'Otro') {
+                const otroVal = document.getElementById('programa-otro-input').value.trim();
+                return otroVal ? `Otro: ${otroVal}` : 'Otro';
+            }
+            return programa;
+        }
+
+        // ============================
+        // OBTENER TIPO TÍTULO FINAL (resuelve "Otros")
+        // ============================
+        function getTipoTituloFinal() {
+            const tipo = document.getElementById('tipo-titulo').value;
+            if (tipo === 'Otros') {
+                const otroVal = document.getElementById('tipo-titulo-otro-input').value.trim();
+                return otroVal ? `Otros: ${otroVal}` : 'Otros';
+            }
+            return tipo;
+        }
+
+        // ============================
         // CREAR REPOSITORIO
         // ============================
         function createRepo() {
@@ -460,6 +576,10 @@
                 alert('Por favor, selecciona tu Rol de Solicitante.');
                 return;
             }
+            if (rol === 'Otros' && !document.getElementById('rol-otro-input').value.trim()) {
+                alert('Por favor, especifica tu rol en el campo de texto.');
+                return;
+            }
             if (!projectName) {
                 alert('Por favor, escribe un nombre para tu repositorio.');
                 return;
@@ -468,14 +588,22 @@
                 alert('Por favor, selecciona el Programa de Formación.');
                 return;
             }
+            if (programaFormacion === 'Otro' && !document.getElementById('programa-otro-input').value.trim()) {
+                alert('Por favor, especifica el programa de formación en el campo de texto.');
+                return;
+            }
             if (rol === 'Estudiante' && !tipoTitulo) {
                 alert('Por favor, selecciona el tipo de título.');
+                return;
+            }
+            if (rol === 'Estudiante' && tipoTitulo === 'Otros' && !document.getElementById('tipo-titulo-otro-input').value.trim()) {
+                alert('Por favor, especifica el tipo de producción intelectual en el campo de texto.');
                 return;
             }
 
             const users = getUsersData();
             if (users.length === 0) {
-                const rolLabel = rol === 'Estudiante' ? 'Estudiante' : (rol === 'Profesor' ? 'Profesor' : 'Solicitante');
+                const rolLabel = rol === 'Estudiante' ? 'Estudiante' : (rol === 'Profesor' ? 'Profesor' : (rol === 'Administrativo' ? 'Administrativo' : (rol === 'Obrero' ? 'Obrero' : 'Solicitante')));
                 alert(`Debes agregar al menos un ${rolLabel} con Nombre y Cédula.`);
                 return;
             }
@@ -495,19 +623,24 @@
                 if (!noAplicaEmp) {
                     const tutorEmp = getTutorData('empresarial');
                     if (!tutorEmp) {
-                        alert('Por favor, completa los datos del Tutor Empresarial o marca "NO APLICA".');
+                        alert('Por favor, completa los datos del Tutor Empresarial o de Contenido o marca "NO APLICA".');
                         return;
                     }
                 }
             }
 
+            // Obtener valores finales (resolviendo "Otros")
+            const rolFinal = getRolFinal();
+            const programaFinal = getProgramaFinal();
+            const tipoTituloFinal = getTipoTituloFinal();
+
             // Construir el cuerpo del issue
             const usersText = users.map((u, i) => `${rol} ${i + 1}: ${u}`).join('\n');
 
-            let issueBody = `**Rol del Solicitante:** ${rol}\n**Programa de Formación:** ${programaFormacion}`;
+            let issueBody = `**Rol del Solicitante:** ${rolFinal}\n**Programa de Formación:** ${programaFinal}`;
 
             if (rol === 'Estudiante') {
-                issueBody += `\n**Para optar al título de:** ${tipoTitulo}`;
+                issueBody += `\n**Para optar al título de:** ${tipoTituloFinal}`;
             }
 
             issueBody += `\n\n**${rol === 'Estudiante' ? 'Autor/Autores' : (rol === 'Profesor' ? 'Profesor(es)' : 'Solicitante(s)')}:**\n${usersText}`;
@@ -517,7 +650,7 @@
                 const tutorMet = getTutorData('metodologico');
                 const tutorEmp = getTutorData('empresarial');
                 issueBody += `\n\n**Tutor Metodológico:** ${tutorMet}`;
-                issueBody += `\n**Tutor Empresarial:** ${tutorEmp}`;
+                issueBody += `\n**Tutor Empresarial o de Contenido:** ${tutorEmp}`;
             }
 
             issueBody += `\n\n**Descripción Completa del Proyecto:**\n\n${projectDescription}`;
