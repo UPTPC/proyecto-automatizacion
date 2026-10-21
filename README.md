@@ -43,9 +43,10 @@ Este repositorio nace con la finalidad de centralizar y facilitar la configuraci
 A continuación, te explicamos el proceso para crear tu repositorio de Proyecto Sociotecnológico de manera automática dentro de la organización UPTPC. Este proceso es rápido y te garantiza que tu repositorio esté listo para ser usado con las configuraciones adecuadas.
 
 **Paso 1: Ir a la herramienta de creación**
-Ve a la siguiente página web para comenzar:
+Ve a la siguiente página web para comenzar (también puedes explorar todos los repositorios existentes en el catálogo en vivo):
 <div align="center">
   <h2><a href="https://uptpc.github.io/proyecto-automatizacion/">https://uptpc.github.io/proyecto-automatizacion/</a></h2>
+  <p><strong>Catálogo de Proyectos y Repositorios en Vivo:</strong> <a href="https://uptpc.github.io/proyecto-automatizacion/lista.html">https://uptpc.github.io/proyecto-automatizacion/lista.html</a></p>
 </div>
 
 **Paso 2: Completar el formulario**
