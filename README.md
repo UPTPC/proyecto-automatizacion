@@ -49,11 +49,16 @@ Ve a la siguiente página web para comenzar:
 </div>
 
 **Paso 2: Completar el formulario**
-En la página, encontrarás dos campos:
+En la página, deberás completar la siguiente información académica y técnica:
 
-* **Nombre del Repositorio:** Escribe un nombre corto y descriptivo para tu repositorio (máximo 80 caracteres).
-
-* **Descripción Completa del Proyecto:** Ingresa el título Completo de tu Proyecto Sociotecnológico.
+* **Rol del Solicitante:** Selecciona si eres Estudiante, Profesor, Administrativo, Obrero u Otro.
+* **Programa de Formación:** Selecciona tu PNF o PT correspondiente (o especifica uno nuevo).
+* **Para optar al título de:** (Para estudiantes) TSU, Ingeniería, Licenciatura, Servicio Comunitario, Prácticas, etc.
+* **Línea de Investigación / Área Temática:** Selecciona una o más áreas del catálogo temático institucional (o registra una nueva) para clasificar adecuadamente tu investigación.
+* **Autores:** Nombre completo y número de Cédula de Identidad de cada uno de los autores del trabajo.
+* **Tutores:** (Para estudiantes) Nombre y Cédula del Tutor Metodológico y del Tutor Empresarial o de Contenido (o marcar "NO APLICA").
+* **Nombre del Repositorio:** Escribe un nombre corto y descriptivo (se convertirá automáticamente a formato compatible con GitHub).
+* **Descripción Completa del Proyecto:** Ingresa el título y resumen del Proyecto Sociotecnológico o trabajo de investigación.
 
 **Paso 3: Iniciar la solicitud**
 Una vez que hayas completado los campos, haz clic en el botón con el ícono de GitHub: **"Ir a GITHUB a Crear el Repositorio"**. Esto te llevará a una página de GitHub.

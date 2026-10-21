@@ -3,140 +3,632 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear tu Proyecto - UPTPC</title>
+    <title>Crear Repositorio de Proyecto - UPTPC</title>
+    <!-- Bootstrap 5.3.3 & Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
+        :root {
+            --uptpc-blue: #0B4D94;
+            --uptpc-blue-hover: #073262;
+            --uptpc-blue-light: #eff6ff;
+            --uptpc-blue-border: #bfdbfe;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f6f8fa;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f1f5f9;
+            color: var(--slate-800);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
         }
+
+        .header-section {
+            padding: 1.25rem 0 0.5rem;
+        }
+
         .logo-header {
-            max-width: 250px;
-            margin-top: 20px;
+            max-height: 65px;
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.2s ease;
         }
-        .container-content {
-            background-color: white;
-            padding: 40px;
+
+        .logo-header:hover {
+            transform: scale(1.02);
+        }
+
+        .main-card {
+            background-color: #ffffff;
+            border: 1px solid var(--slate-200);
+            border-radius: 14px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            padding: 1.25rem 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 576px) {
+            .main-card {
+                padding: 2rem 1.75rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .main-card {
+                padding: 2.25rem 2.25rem;
+            }
+        }
+
+        .main-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--slate-800);
+            letter-spacing: -0.015em;
+            margin-bottom: 0.35rem;
+        }
+
+        @media (min-width: 576px) {
+            .main-title {
+                font-size: 1.55rem;
+            }
+        }
+
+        .main-subtitle {
+            font-size: 0.825rem;
+            color: var(--slate-500);
+            margin-bottom: 1.5rem;
+            line-height: 1.45;
+        }
+
+        .form-label-custom {
+            display: block;
+            font-size: 0.775rem;
+            font-weight: 700;
+            color: var(--slate-700);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.35rem;
+        }
+
+        .form-control, .form-select {
+            font-size: 0.85rem;
+            padding: 0.45rem 0.65rem;
+            border-color: var(--slate-300);
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            color: var(--slate-800);
         }
-        .logo-footer {
-            height: 100px;
-            margin: 0 10px;
-            max-width: 100%;
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--uptpc-blue);
+            box-shadow: 0 0 0 3px rgba(11, 77, 148, 0.15);
         }
+
+        .section-card {
+            background-color: var(--slate-50);
+            border: 1px solid var(--slate-200);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-card-title {
+            font-size: 0.825rem;
+            font-weight: 700;
+            color: var(--slate-700);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-card-title i {
+            color: var(--uptpc-blue);
+            font-size: 0.95rem;
+        }
+
+        /* Responsive Author / User Row */
+        .user-row {
+            background: #ffffff;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: border-color 0.15s ease;
+        }
+
+        .user-row:hover {
+            border-color: var(--slate-300);
+        }
+
+        .user-row-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        @media (min-width: 576px) {
+            .user-row-grid {
+                flex-direction: row;
+                align-items: center;
+            }
+            .user-col-name {
+                flex: 1 1 50%;
+            }
+            .user-col-ci {
+                flex: 1 1 42%;
+            }
+            .user-col-action {
+                flex: 0 0 auto;
+            }
+        }
+
+        .no-aplica-check {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.775rem;
+            font-weight: 600;
+            color: var(--slate-600);
+            cursor: pointer;
+            margin-bottom: 0.65rem;
+            user-select: none;
+        }
+
+        .no-aplica-badge {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.15rem 0.45rem;
+            border-radius: 9999px;
+            background-color: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            text-transform: uppercase;
+        }
+
+        .tutor-fields {
+            transition: opacity 0.2s ease;
+        }
+
+        .tutor-fields.collapsed {
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        /* ========================================================
+           COMPONENTE: ÁREA DE INTERÉS INVESTIGATIVO
+           ======================================================== */
+        .area-component-card {
+            background-color: var(--slate-50);
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        @media (min-width: 576px) {
+            .area-component-card {
+                padding: 1.25rem;
+            }
+        }
+
+        .area-header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (min-width: 576px) {
+            .area-header {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        .area-title-text {
+            font-size: 0.775rem;
+            font-weight: 700;
+            color: var(--slate-800);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin: 0;
+        }
+
+        .area-subtitle-text {
+            font-size: 0.725rem;
+            color: var(--slate-500);
+            margin: 0.15rem 0 0;
+            line-height: 1.35;
+        }
+
+        .area-counter-pill {
+            font-size: 0.725rem;
+            font-weight: 600;
+            color: var(--uptpc-blue);
+            background-color: var(--uptpc-blue-light);
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            border: 1px solid var(--uptpc-blue-border);
+            white-space: nowrap;
+            align-self: flex-start;
+        }
+
+        @media (min-width: 576px) {
+            .area-counter-pill {
+                align-self: center;
+            }
+        }
+
+        /* Selected chips bar */
+        .selected-areas-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-bottom: 0.65rem;
+            min-height: 10px;
+        }
+
+        .area-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background-color: #ffffff;
+            color: var(--uptpc-blue);
+            border: 1px solid var(--uptpc-blue-border);
+            font-size: 0.725rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            animation: fadeIn 0.15s ease-in-out;
+        }
+
+        .area-chip-remove {
+            background: none;
+            border: none;
+            color: var(--slate-400);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            line-height: 1;
+        }
+
+        .area-chip-remove:hover {
+            color: #dc2626;
+        }
+
+        /* Search input */
+        .area-search-wrapper {
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+
+        .area-search-icon {
+            position: absolute;
+            left: 0.65rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate-400);
+            font-size: 0.85rem;
+            pointer-events: none;
+        }
+
+        .area-search-input {
+            width: 100%;
+            font-size: 0.775rem;
+            border: 1px solid var(--slate-300);
+            border-radius: 8px;
+            padding: 0.45rem 1.8rem 0.45rem 2rem;
+            background-color: #ffffff;
+            color: var(--slate-800);
+        }
+
+        .area-search-input:focus {
+            outline: none;
+            border-color: var(--uptpc-blue);
+            box-shadow: 0 0 0 2px rgba(11, 77, 148, 0.15);
+        }
+
+        .area-search-clear {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--slate-400);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0.1rem 0.3rem;
+            display: none;
+        }
+
+        .area-search-clear:hover {
+            color: var(--slate-600);
+        }
+
+        /* Areas Catalog Grid */
+        .areas-grid-container {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            background-color: #ffffff;
+            padding: 0.5rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.35rem;
+        }
+
+        @media (min-width: 576px) {
+            .areas-grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .areas-grid-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .area-btn {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.45rem;
+            text-align: left;
+            font-size: 0.75rem;
+            padding: 0.4rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--slate-100);
+            background-color: #ffffff;
+            color: var(--slate-700);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            width: 100%;
+        }
+
+        .area-btn:hover {
+            border-color: var(--slate-300);
+            background-color: var(--slate-50);
+        }
+
+        .area-btn.selected {
+            border-color: var(--uptpc-blue);
+            background-color: var(--uptpc-blue-light);
+            color: var(--uptpc-blue);
+            font-weight: 600;
+        }
+
+        .area-btn-check {
+            width: 14px;
+            height: 14px;
+            margin-top: 2px;
+            border-radius: 3px;
+            border: 1px solid var(--slate-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 9px;
+            background-color: #ffffff;
+            color: transparent;
+            transition: all 0.12s ease;
+        }
+
+        .area-btn.selected .area-btn-check {
+            background-color: var(--uptpc-blue);
+            border-color: var(--uptpc-blue);
+            color: #ffffff;
+        }
+
+        .area-btn-text {
+            line-height: 1.25;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-word;
+        }
+
+        .no-areas-match {
+            grid-column: 1 / -1;
+            padding: 1.25rem 0.5rem;
+            text-align: center;
+            color: var(--slate-500);
+            font-size: 0.75rem;
+        }
+
+        /* Add Custom Area Section */
+        .add-custom-area {
+            padding-top: 0.65rem;
+            border-top: 1px solid var(--slate-200);
+            margin-top: 0.65rem;
+        }
+
+        .add-custom-label {
+            display: block;
+            font-size: 0.725rem;
+            font-weight: 700;
+            color: var(--slate-600);
+            margin-bottom: 0.35rem;
+        }
+
+        .add-custom-form {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .add-custom-input {
+            flex: 1;
+            font-size: 0.75rem;
+            border: 1px solid var(--slate-300);
+            border-radius: 8px;
+            padding: 0.4rem 0.65rem;
+            background-color: #ffffff;
+            color: var(--slate-800);
+        }
+
+        .add-custom-input:focus {
+            outline: none;
+            border-color: var(--uptpc-blue);
+            box-shadow: 0 0 0 2px rgba(11, 77, 148, 0.15);
+        }
+
+        .add-custom-btn {
+            background-color: var(--uptpc-blue);
+            color: #ffffff;
+            font-size: 0.725rem;
+            font-weight: 700;
+            padding: 0.4rem 0.75rem;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+        }
+
+        .add-custom-btn:hover:not(:disabled) {
+            background-color: var(--uptpc-blue-hover);
+        }
+
+        .add-custom-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--slate-400);
+        }
+
+        /* Dynamic repo slug preview */
+        .repo-preview-box {
+            background-color: var(--slate-50);
+            border: 1px dashed var(--slate-300);
+            border-radius: 6px;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.725rem;
+            color: var(--slate-600);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.35rem;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .repo-preview-slug {
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-weight: 700;
+            color: var(--uptpc-blue);
+            word-break: break-all;
+        }
+
+        /* Submit Button */
+        .btn-submit-custom {
+            background-color: #2da44e;
+            border: 1px solid #2c974b;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.925rem;
+            padding: 0.65rem 1.25rem;
+            border-radius: 8px;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-submit-custom:hover {
+            background-color: #2c974b;
+            border-color: #248441;
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .otro-wrapper {
+            display: none;
+            margin-top: 0.35rem;
+        }
+
+        .otro-wrapper.visible {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            color: var(--slate-500);
+            padding: 1.5rem 0 2.5rem;
+            font-size: 0.75rem;
+        }
+
         .footer-logos {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 1rem;
         }
-        footer {
-            color: #586069;
-            padding: 20px 0;
+
+        .logo-footer {
+            max-height: 48px;
+            width: auto;
+            object-fit: contain;
+            filter: grayscale(20%);
+            transition: filter 0.2s ease;
         }
-        .section-card {
-            border: 1px solid #d0d7de;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #f6f8fa;
-            transition: all 0.3s ease;
+
+        .logo-footer:hover {
+            filter: grayscale(0%);
         }
-        .section-card.active-section {
-            border-color: #2da44e;
-            background-color: #f0fff4;
-        }
-        .section-card.disabled-section {
-            opacity: 0.5;
-            pointer-events: none;
-            background-color: #f0f0f0;
-        }
-        .section-card .section-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: #24292f;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .section-card .section-title i {
-            color: #57606a;
-        }
-        .no-aplica-check {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-            color: #57606a;
-            cursor: pointer;
-        }
-        .no-aplica-check input[type="checkbox"] {
-            cursor: pointer;
-        }
-        .no-aplica-badge {
-            display: inline-block;
-            background-color: #d1242f;
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .rol-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .rol-estudiante { background-color: #ddf4ff; color: #0969da; }
-        .rol-profesor { background-color: #dafbe1; color: #1a7f37; }
-        .rol-no-aplica { background-color: #fff8c5; color: #9a6700; }
-        .tutor-fields {
-            transition: opacity 0.3s ease;
-        }
-        .tutor-fields.collapsed {
-            opacity: 0.3;
-            pointer-events: none;
-        }
-        .otro-input-wrapper {
-            display: none;
-            margin-top: 8px;
-        }
-        .otro-input-wrapper.visible {
-            display: block;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-3px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <header class="text-center">
-        <img src="https://i.ibb.co/ZzBd0nQ1/LOGO.png" alt="Logo Universidad" class="img-fluid logo-header">
+    <!-- LOGO DE CABECERA -->
+    <header class="header-section text-center">
+        <a href="https://www.uptpc.edu.ve/" target="_blank" rel="noopener">
+            <img src="https://i.ibb.co/ZzBd0nQ1/LOGO.png" alt="Logo UPTPC" class="logo-header">
+        </a>
     </header>
 
-    <main class="container mt-5">
+    <main class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="container-content text-center">
-                    <h1 class="mb-3">Crea tu repositorio personal</h1>
+            <div class="col-12 col-md-10 col-lg-8">
+                <div class="main-card">
+                    
+                    <!-- ENCABEZADO PRINCIPAL -->
+                    <div class="text-center">
+                        <h1 class="main-title">Crear Repositorio Institucional</h1>
+                        <p class="main-subtitle">
+                            Complete los datos académicos de su trabajo sociotecnológico o de investigación para generar automáticamente su repositorio oficial en la organización <strong>UPTPC</strong>.
+                        </p>
+                    </div>
 
-                    <p class="mb-4">Ingresa un nombre corto para tu repositorio y la descripción completa de tu proyecto. El sistema creará un repositorio único para ti.</p>
-
-                    <!-- ========== ROL DEL SOLICITANTE ========== -->
-                    <div class="mb-4">
-                        <label for="rol-solicitante" class="form-label fw-semibold">Rol del Solicitante</label>
+                    <!-- 1. ROL DEL SOLICITANTE -->
+                    <div class="mb-3 text-start">
+                        <label for="rol-solicitante" class="form-label-custom">Rol del Solicitante <span class="text-danger">*</span></label>
                         <select id="rol-solicitante" class="form-select" onchange="onRolChange()">
-                            <option value="" disabled selected>Seleccione su rol</option>
+                            <option value="" disabled selected>Seleccione su rol institucional...</option>
                             <option value="Estudiante">Estudiante</option>
                             <option value="Profesor">Profesor</option>
                             <option value="Administrativo">Administrativo</option>
@@ -144,16 +636,16 @@
                             <option value="Otros">Otros</option>
                             <option value="NO APLICA">NO APLICA</option>
                         </select>
-                        <div class="otro-input-wrapper" id="rol-otro-wrapper">
-                            <input type="text" class="form-control" id="rol-otro-input" placeholder="Especifique su rol" maxlength="50">
+                        <div class="otro-wrapper" id="rol-otro-wrapper">
+                            <input type="text" class="form-control form-control-sm mt-1" id="rol-otro-input" placeholder="Especifique su rol..." maxlength="50">
                         </div>
                     </div>
 
-                    <!-- ========== PROGRAMA DE FORMACIÓN ========== -->
-                    <div class="mb-4">
-                        <label for="programa-formacion" class="form-label">Programa de Formación</label>
+                    <!-- 2. PROGRAMA DE FORMACIÓN -->
+                    <div class="mb-3 text-start">
+                        <label for="programa-formacion" class="form-label-custom">Programa de Formación <span class="text-danger">*</span></label>
                         <select id="programa-formacion" class="form-select" required onchange="onProgramaChange()">
-                            <option value="" disabled selected>Seleccione una opción</option>
+                            <option value="" disabled selected>Seleccione el programa de formación...</option>
                             <option>PT en Mecánica Térmica</option>
                             <option>PT en Mecánica Automotriz</option>
                             <option>PNF en Materiales Industriales</option>
@@ -161,48 +653,88 @@
                             <option>PNF en Mecánica</option>
                             <option>PNF en Turismo</option>
                             <option>PNF en Informática</option>
-                            <option>PNF en Distribucion y Logística</option>
+                            <option>PNF en Distribución y Logística</option>
                             <option value="Otro">Otro</option>
                         </select>
-                        <div class="otro-input-wrapper" id="programa-otro-wrapper">
-                            <input type="text" class="form-control" id="programa-otro-input" placeholder="Especifique el programa de formación" maxlength="100">
+                        <div class="otro-wrapper" id="programa-otro-wrapper">
+                            <input type="text" class="form-control form-control-sm mt-1" id="programa-otro-input" placeholder="Especifique el programa de formación..." maxlength="100">
                         </div>
                     </div>
 
-                    <!-- ========== TIPO DE TÍTULO ========== -->
-                    <div class="mb-4">
-                        <label for="tipo-titulo" class="form-label">Para optar al título de</label>
-                        <select id="tipo-titulo" class="form-select" required onchange="onTipoTituloChange()">
-                            <option value="" disabled selected>Seleccione una opción</option>
+                    <!-- 3. TIPO DE TÍTULO (Para Estudiantes) -->
+                    <div class="mb-3 text-start" id="tipo-titulo-group">
+                        <label for="tipo-titulo" class="form-label-custom">Para optar al título de <span class="text-danger">*</span></label>
+                        <select id="tipo-titulo" class="form-select" onchange="onTipoTituloChange()">
+                            <option value="" disabled selected>Seleccione el nivel o tipo de producción...</option>
                             <option>TSU</option>
                             <option>Licenciatura</option>
                             <option>Ingeniería</option>
                             <option>Proyecto de Servicio Comunitario</option>
-                            <option>Informe de Practicas Profesionales</option>
+                            <option>Informe de Prácticas Profesionales</option>
                             <option value="Otros">Otros</option>
                         </select>
-                        <div class="otro-input-wrapper" id="tipo-titulo-otro-wrapper">
-                            <input type="text" class="form-control" id="tipo-titulo-otro-input" placeholder="Especifique el tipo de producción intelectual" maxlength="100">
+                        <div class="otro-wrapper" id="tipo-titulo-otro-wrapper">
+                            <input type="text" class="form-control form-control-sm mt-1" id="tipo-titulo-otro-input" placeholder="Especifique el tipo de producción intelectual..." maxlength="100">
                         </div>
                     </div>
 
-                    <!-- ========== AUTORES (ESTUDIANTES / PROFESORES) ========== -->
-                    <div class="section-card" id="autores-section">
-                        <div class="section-title">
+                    <!-- 4. LÍNEA DE INVESTIGACIÓN / ÁREA DE INTERÉS (COMPONENTE INTEGRADO) -->
+                    <div class="area-component-card text-start" id="area-investigativa-section">
+                        <!-- Cabecera del componente -->
+                        <div class="area-header">
+                            <div>
+                                <h2 class="area-title-text">Línea de Investigación / Área Temática <span class="text-danger">*</span></h2>
+                                <p class="area-subtitle-text">Seleccione una o más áreas del catálogo institucional o registre una nueva disponible para la comunidad.</p>
+                            </div>
+                            <span class="area-counter-pill" id="areas-counter-badge">0 áreas seleccionadas</span>
+                        </div>
+
+                        <!-- Chips de áreas seleccionadas -->
+                        <div id="selected-areas-chips" class="selected-areas-chips"></div>
+
+                        <!-- Buscador en tiempo real -->
+                        <div class="area-search-wrapper">
+                            <i class="bi bi-search area-search-icon"></i>
+                            <input type="text" id="area-search-input" class="area-search-input" placeholder="Buscar área en el catálogo (ej: Inteligencia Artificial, Energías, Automatización...)" oninput="filterAreas()">
+                            <button type="button" id="area-search-clear" class="area-search-clear" onclick="clearAreaSearch()" title="Limpiar búsqueda">&times;</button>
+                        </div>
+
+                        <!-- Grilla interactiva de botones de catálogo -->
+                        <div class="areas-grid-container" id="areas-grid-list">
+                            <!-- Los botones se generan dinámicamente -->
+                        </div>
+
+                        <!-- Registro de nueva área personalizada -->
+                        <div class="add-custom-area">
+                            <label for="new-area-input" class="add-custom-label">¿No encuentra su área en el catálogo? Agréguela aquí:</label>
+                            <div class="add-custom-form">
+                                <input type="text" id="new-area-input" class="add-custom-input" placeholder="Escriba el nombre del área de interés..." oninput="checkNewAreaBtn()" onkeydown="handleNewAreaKey(event)" maxlength="80">
+                                <button type="button" id="btn-add-area" class="add-custom-btn" disabled onclick="addNewArea()">
+                                    <i class="bi bi-plus-lg"></i>
+                                    <span>+ Crear y Seleccionar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. AUTORES (ESTUDIANTES / PROFESORES / SOLICITANTES) -->
+                    <div class="section-card text-start" id="autores-section">
+                        <div class="section-card-title">
                             <i class="bi bi-people-fill"></i>
                             <span id="autores-label">Nombre Completo y Cédula de los Autores</span>
+                            <span class="text-danger">*</span>
                         </div>
                         <div id="users-list"></div>
-                        <button type="button" class="btn btn-primary btn-sm mt-2" onclick="addUser()">
-                            <i class="bi bi-plus-lg"></i> Agregar Autor
+                        <button type="button" class="btn btn-outline-primary btn-sm mt-2 fw-semibold" id="btn-add-author" onclick="addUser()">
+                            <i class="bi bi-plus-lg"></i> <span id="btn-add-author-text">Agregar Autor</span>
                         </button>
                     </div>
 
-                    <!-- ========== TUTOR METODOLÓGICO ========== -->
-                    <div class="section-card" id="tutor-metodologico-section">
-                        <div class="section-title">
+                    <!-- 6. TUTOR METODOLÓGICO -->
+                    <div class="section-card text-start" id="tutor-metodologico-section">
+                        <div class="section-card-title">
                             <i class="bi bi-person-workspace"></i>
-                            Tutor Metodológico
+                            <span>Tutor Metodológico</span>
                         </div>
                         <label class="no-aplica-check">
                             <input type="checkbox" id="no-aplica-tutor-metodologico" onchange="toggleTutorSection('metodologico')">
@@ -210,28 +742,28 @@
                             <span class="no-aplica-badge" id="badge-metodologico" style="display:none;">Inactivo</span>
                         </label>
                         <div class="tutor-fields" id="tutor-metodologico-fields">
-                            <div class="row align-items-end mb-2">
-                                <div class="col-md-5 mb-2 mb-md-0">
-                                    <input type="text" class="form-control" id="tutor-metodologico-nombre" placeholder="Nombre Completo">
+                            <div class="user-row-grid">
+                                <div class="user-col-name">
+                                    <input type="text" class="form-control form-control-sm" id="tutor-metodologico-nombre" placeholder="Nombre Completo del Tutor">
                                 </div>
-                                <div class="col-md-2 mb-2 mb-md-0">
-                                    <select class="form-select" id="tutor-metodologico-tipo-ci">
-                                        <option value="V">V</option>
-                                        <option value="E">E</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 mb-2 mb-md-0">
-                                    <input type="text" class="form-control" id="tutor-metodologico-cedula" placeholder="Cédula">
+                                <div class="user-col-ci">
+                                    <div class="input-group input-group-sm">
+                                        <select class="form-select" id="tutor-metodologico-tipo-ci" style="max-width: 65px; flex: 0 0 65px;">
+                                            <option value="V">V</option>
+                                            <option value="E">E</option>
+                                        </select>
+                                        <input type="text" class="form-control" id="tutor-metodologico-cedula" placeholder="Cédula" inputmode="numeric" maxlength="10">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- ========== TUTOR EMPRESARIAL O DE CONTENIDO ========== -->
-                    <div class="section-card" id="tutor-empresarial-section">
-                        <div class="section-title">
+                    <!-- 7. TUTOR EMPRESARIAL O DE CONTENIDO -->
+                    <div class="section-card text-start" id="tutor-empresarial-section">
+                        <div class="section-card-title">
                             <i class="bi bi-building"></i>
-                            Tutor Empresarial o de Contenido
+                            <span>Tutor Empresarial o de Contenido</span>
                         </div>
                         <label class="no-aplica-check">
                             <input type="checkbox" id="no-aplica-tutor-empresarial" onchange="toggleTutorSection('empresarial')">
@@ -239,79 +771,331 @@
                             <span class="no-aplica-badge" id="badge-empresarial" style="display:none;">Inactivo</span>
                         </label>
                         <div class="tutor-fields" id="tutor-empresarial-fields">
-                            <div class="row align-items-end mb-2">
-                                <div class="col-md-5 mb-2 mb-md-0">
-                                    <input type="text" class="form-control" id="tutor-empresarial-nombre" placeholder="Nombre Completo">
+                            <div class="user-row-grid">
+                                <div class="user-col-name">
+                                    <input type="text" class="form-control form-control-sm" id="tutor-empresarial-nombre" placeholder="Nombre Completo del Tutor">
                                 </div>
-                                <div class="col-md-2 mb-2 mb-md-0">
-                                    <select class="form-select" id="tutor-empresarial-tipo-ci">
-                                        <option value="V">V</option>
-                                        <option value="E">E</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 mb-2 mb-md-0">
-                                    <input type="text" class="form-control" id="tutor-empresarial-cedula" placeholder="Cédula">
+                                <div class="user-col-ci">
+                                    <div class="input-group input-group-sm">
+                                        <select class="form-select" id="tutor-empresarial-tipo-ci" style="max-width: 65px; flex: 0 0 65px;">
+                                            <option value="V">V</option>
+                                            <option value="E">E</option>
+                                        </select>
+                                        <input type="text" class="form-control" id="tutor-empresarial-cedula" placeholder="Cédula" inputmode="numeric" maxlength="10">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- ========== NOMBRE DEL REPOSITORIO ========== -->
-                    <div class="mb-3">
-                        <label for="project-name" class="form-label">Nombre del Repositorio (máx. 80 caracteres)</label>
-                        <input type="text" id="project-name" class="form-control form-control-lg" placeholder="Ej: Proyecto de Robotica Educativa" maxlength="80">
+                    <!-- 8. NOMBRE DEL REPOSITORIO -->
+                    <div class="mb-3 text-start">
+                        <label for="project-name" class="form-label-custom">Nombre del Repositorio <span class="text-danger">*</span></label>
+                        <input type="text" id="project-name" class="form-control" placeholder="Ej: Sistema de Control de Inventario" maxlength="70" oninput="updateRepoSlugPreview()">
+                        <div class="repo-preview-box">
+                            <div>
+                                <span>Vista previa en GitHub: </span>
+                                <span class="repo-preview-slug" id="slug-text">&lt;tu-usuario&gt;-...</span>
+                            </div>
+                            <span id="repo-name-counter">0 / 70</span>
+                        </div>
+                        <div class="form-text" style="font-size: 0.72rem; color: var(--slate-500);">
+                            Use un nombre descriptivo y conciso. Se convertirá automáticamente a minúsculas y guiones.
+                        </div>
                     </div>
 
-                    <!-- ========== DESCRIPCIÓN DEL PROYECTO ========== -->
-                    <div class="mb-4">
-                        <label for="project-description" class="form-label">Descripción Completa del Proyecto</label>
-                        <textarea id="project-description" class="form-control form-control-lg" rows="4" placeholder="Ej: SISTEMA AUTOMATIZADO DE INFORMACIÓN DE REGISTRO Y CONTROL DE INVENTARIO DE MATERIA PRIMA..."></textarea>
+                    <!-- 9. DESCRIPCIÓN DEL PROYECTO -->
+                    <div class="mb-3 text-start">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="project-description" class="form-label-custom mb-0">Descripción Completa del Proyecto <span class="text-danger">*</span></label>
+                            <span id="desc-counter" style="font-size: 0.725rem; color: var(--slate-500);">0 caracteres</span>
+                        </div>
+                        <textarea id="project-description" class="form-control" rows="3" placeholder="Ej: SISTEMA AUTOMATIZADO DE INFORMACIÓN DE REGISTRO Y CONTROL DE INVENTARIO DE MATERIA PRIMA EN LA EMPRESA..." oninput="updateDescCounter()"></textarea>
+                        <div class="form-text" style="font-size: 0.72rem; color: var(--slate-500);">
+                            Describa brevemente el objetivo y alcance del trabajo para identificar con precisión qué se va a subir al repositorio.
+                        </div>
                     </div>
 
-                    <p class="text-muted small">
-                        A continuación, serás redirigido a GITHUB. Simplemente haz clic en el botón verde <strong>"Create"</strong> para confirmar la solicitud. El repositorio se creará automáticamente y podrás clonarlo y empezar a trabajar en él.
-                    </p>
+                    <!-- BOTÓN DE ENVÍO A GITHUB -->
+                    <div class="mt-4 pt-2">
+                        <button type="button" onclick="createRepo()" id="btn-submit" class="btn btn-submit-custom w-100 d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-github" style="font-size: 1.15rem;"></i>
+                            <span>Ir a GITHUB a Crear el Repositorio</span>
+                        </button>
+                        <p class="text-muted text-center mt-2 mb-0" style="font-size: 0.75rem;">
+                            Serás redirigido a GitHub con la solicitud pre-llenada. Solo haz clic en <strong>"Submit new issue"</strong> o <strong>"Create"</strong>.
+                        </p>
+                    </div>
 
-                    <button onclick="createRepo()" class="btn btn-success btn-lg">
-                        <i class="bi bi-github me-2"></i>Ir a GITHUB a Crear el Repositorio
-                    </button>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="text-center mt-5">
+    <!-- PIE DE PÁGINA INSTITUCIONAL -->
+    <footer class="text-center">
         <div class="container">
             <div class="footer-logos">
-                <img src="https://i.ibb.co/bR55k8c1/EDUCACI-N-UNIVERSITARIA.png" alt="Ministerio de Educacion Universitaria" class="img-fluid logo-footer">
-                <img src="https://i.ibb.co/sJN4WtQc/LOGO-CIENCIA-Y-TECNOLOGIA.png" alt="Ministerio de Ciencia y Tecnologia" class="img-fluid logo-footer">
-                <img src="https://i.ibb.co/QFz2DhKH/22.png" alt="Science and Tecnology Megazine" class="img-fluid logo-footer">
+                <img src="https://i.ibb.co/bR55k8c1/EDUCACI-N-UNIVERSITARIA.png" alt="Ministerio de Educación Universitaria" class="img-fluid logo-footer">
+                <img src="https://i.ibb.co/sJN4WtQc/LOGO-CIENCIA-Y-TECNOLOGIA.png" alt="Ministerio de Ciencia y Tecnología" class="img-fluid logo-footer">
+                <img src="https://i.ibb.co/QFz2DhKH/22.png" alt="Ciencia y Tecnología" class="img-fluid logo-footer">
             </div>
             <p class="mb-1">
-                <a href="https://www.uptpc.edu.ve/ciencia-y-tecnolog%C3%ADa" class="text-decoration-none" target="_blank">Ciencia y Tecnología UPTPC</a>
+                <a href="https://www.uptpc.edu.ve/ciencia-y-tecnolog%C3%ADa" class="text-decoration-none fw-semibold" target="_blank" rel="noopener" style="color: var(--uptpc-blue);">
+                    Ciencia y Tecnología UPTPC
+                </a>
             </p>
-            <p class="mb-1">Universidad Politécnica Territorial de Puerto Cabello UPTPC</p>
+            <p class="mb-1">Universidad Politécnica Territorial de Puerto Cabello (UPTPC)</p>
             <p class="mb-0">RIF: G-20005608-8</p>
         </div>
     </footer>
 
+    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
-        // ============================
-        // CAMBIO DE ROL
-        // ============================
+        // ========================================================
+        // CATÁLOGO INSTITUCIONAL DE ÁREAS TEMÁTICAS / LÍNEAS
+        // ========================================================
+        const DEFAULT_AREAS = [
+            "Ambiente",
+            "Ciencias Aplicadas",
+            "Economía y Gestión",
+            "Sociedad",
+            "Tecnología e Informática",
+            "Turismo y Patrimonio",
+            "Comunidad",
+            "Cultura y Memoria Histórica",
+            "Ecología",
+            "Economía y Producción",
+            "Educación",
+            "Gerencia y Políticas Públicas",
+            "Infraestructura y Conectividad",
+            "Ingeniería e Industria",
+            "Sistemas y Software",
+            "Tecnologías Emergentes",
+            "Territorio",
+            "Turismo y Recreación",
+            "Automotriz y Transporte",
+            "Ciencia de Materiales",
+            "Desarrollo Sociocomunitario",
+            "Distribución y Cadena de Suministro",
+            "Espacios Costeros y Marinos",
+            "Formación e Innovación Educativa",
+            "Gestión Ambiental",
+            "Gestión del Riesgo",
+            "Industrial y Productiva",
+            "Logística Portuaria",
+            "Mecánica y Térmica",
+            "Salud y Bienestar Colectivo",
+            "Administración de servidores",
+            "Alfabetización tecnológica",
+            "Análisis de datos",
+            "Arquitectura de bases de datos",
+            "Auditoría de sistemas",
+            "Autogestión vecinal",
+            "Automatización de cadenas productivas",
+            "Automatización y Control",
+            "Biodiversidad marina",
+            "Ciberseguridad",
+            "Cohesión social",
+            "Conservación de monumentos",
+            "Conservación de recursos hídricos",
+            "Control de emisiones atmosféricas",
+            "Control de inventarios",
+            "Corrosión marina",
+            "Desarrollo de software libre",
+            "Diagnóstico electrónico",
+            "Diagnóstico participativo",
+            "Dirección estratégica",
+            "Diseño de rutas turísticas",
+            "Economía social y solidaria",
+            "Ecosistemas litorales",
+            "Ecoturismo",
+            "Eficiencia energética",
+            "Energías Renovables",
+            "Ensayos no destructivos",
+            "Entornos virtuales de aprendizaje",
+            "Ergonomía laboral",
+            "Estructuras de costos",
+            "Evaluación de impacto ambiental",
+            "Generación de vapor",
+            "Inteligencia Artificial",
+            "Nanotecnología",
+            "Robótica y Mecatrónica",
+            "Telecomunicaciones y Redes"
+        ];
+
+        // Lista de áreas activas en el catálogo (inicial + personalizadas)
+        let areasCatalog = [...DEFAULT_AREAS];
+        // Set de áreas actualmente seleccionadas
+        const selectedAreas = new Set();
+
+        // Helper para normalizar cadenas (búsqueda sin tildes ni mayúsculas)
+        function normalizeStr(str) {
+            return (str || '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .trim();
+        }
+
+        // Renderizar la grilla de áreas según filtro
+        function renderAreasGrid(filterText = '') {
+            const container = document.getElementById('areas-grid-list');
+            container.innerHTML = '';
+
+            const normalizedFilter = normalizeStr(filterText);
+            const filtered = areasCatalog.filter(area => {
+                if (!normalizedFilter) return true;
+                return normalizeStr(area).includes(normalizedFilter);
+            });
+
+            if (filtered.length === 0) {
+                const noResultDiv = document.createElement('div');
+                noResultDiv.className = 'no-areas-match';
+                noResultDiv.innerHTML = `
+                    <i class="bi bi-search me-1"></i> No se encontraron áreas coincidentes con "<strong>${escapeHtml(filterText)}</strong>".<br>
+                    <span class="text-primary mt-1 d-inline-block">Puedes agregarla abajo usando el campo "+ Crear y Seleccionar".</span>
+                `;
+                container.appendChild(noResultDiv);
+                return;
+            }
+
+            filtered.forEach(area => {
+                const isSelected = selectedAreas.has(area);
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `area-btn ${isSelected ? 'selected' : ''}`;
+                btn.setAttribute('data-area', area);
+                btn.onclick = () => toggleArea(area);
+
+                btn.innerHTML = `
+                    <span class="area-btn-check">${isSelected ? '✓' : ''}</span>
+                    <span class="area-btn-text">${escapeHtml(area)}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        // Renderizar los chips de áreas seleccionadas
+        function renderSelectedChips() {
+            const container = document.getElementById('selected-areas-chips');
+            const badge = document.getElementById('areas-counter-badge');
+            container.innerHTML = '';
+
+            const count = selectedAreas.size;
+            badge.textContent = `${count} ${count === 1 ? 'área seleccionada' : 'áreas seleccionadas'}`;
+
+            if (count > 0) {
+                badge.classList.add('fw-bold');
+            } else {
+                badge.classList.remove('fw-bold');
+            }
+
+            selectedAreas.forEach(area => {
+                const chip = document.createElement('span');
+                chip.className = 'area-chip';
+                chip.innerHTML = `
+                    <span>${escapeHtml(area)}</span>
+                    <button type="button" class="area-chip-remove" onclick="toggleArea('${escapeJs(area)}')" title="Quitar">&times;</button>
+                `;
+                container.appendChild(chip);
+            });
+        }
+
+        // Alternar selección de un área
+        function toggleArea(area) {
+            if (selectedAreas.has(area)) {
+                selectedAreas.delete(area);
+            } else {
+                selectedAreas.add(area);
+            }
+            renderSelectedChips();
+            // Refrescar estado visual de los botones visibles
+            const currentFilter = document.getElementById('area-search-input').value;
+            renderAreasGrid(currentFilter);
+        }
+
+        // Filtrar áreas en tiempo real
+        function filterAreas() {
+            const input = document.getElementById('area-search-input');
+            const clearBtn = document.getElementById('area-search-clear');
+            const query = input.value;
+
+            if (query.length > 0) {
+                clearBtn.style.display = 'block';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+
+            renderAreasGrid(query);
+        }
+
+        // Limpiar búsqueda
+        function clearAreaSearch() {
+            const input = document.getElementById('area-search-input');
+            input.value = '';
+            document.getElementById('area-search-clear').style.display = 'none';
+            renderAreasGrid('');
+            input.focus();
+        }
+
+        // Habilitar/Deshabilitar botón de agregar área personalizada
+        function checkNewAreaBtn() {
+            const input = document.getElementById('new-area-input');
+            const btn = document.getElementById('btn-add-area');
+            const val = input.value.trim();
+            btn.disabled = (val.length === 0);
+        }
+
+        // Manejar Enter en el campo de nueva área
+        function handleNewAreaKey(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addNewArea();
+            }
+        }
+
+        // Agregar nueva área personalizada
+        function addNewArea() {
+            const input = document.getElementById('new-area-input');
+            const rawVal = input.value.trim();
+            if (!rawVal) return;
+
+            // Formatear primera letra en mayúscula si viene todo en minúscula
+            let formattedVal = rawVal.charAt(0).toUpperCase() + rawVal.slice(1);
+
+            // Verificar si ya existe (sin importar mayúsculas/minúsculas)
+            const normalizedNew = normalizeStr(formattedVal);
+            const existing = areasCatalog.find(a => normalizeStr(a) === normalizedNew);
+
+            if (existing) {
+                selectedAreas.add(existing);
+            } else {
+                areasCatalog.unshift(formattedVal);
+                selectedAreas.add(formattedVal);
+            }
+
+            input.value = '';
+            checkNewAreaBtn();
+
+            // Limpiar filtro para que el usuario vea su nueva área añadida y seleccionada
+            clearAreaSearch();
+            renderSelectedChips();
+        }
+
+        // ========================================================
+        // GESTIÓN DE ROL DEL SOLICITANTE
+        // ========================================================
         function onRolChange() {
             const rol = document.getElementById('rol-solicitante').value;
             const autoresLabel = document.getElementById('autores-label');
-            const addBtn = document.querySelector('#autores-section .btn-primary');
+            const addBtnText = document.getElementById('btn-add-author-text');
             const tutorMetSection = document.getElementById('tutor-metodologico-section');
             const tutorEmpSection = document.getElementById('tutor-empresarial-section');
-            const tipoTituloGroup = document.getElementById('tipo-titulo').closest('.mb-4');
+            const tipoTituloGroup = document.getElementById('tipo-titulo-group');
             const rolOtroWrapper = document.getElementById('rol-otro-wrapper');
-
-            // Resetear usuarios al cambiar de rol
-            document.getElementById('users-list').innerHTML = '';
 
             // Mostrar/ocultar campo "Otro" para el rol
             if (rol === 'Otros') {
@@ -323,79 +1107,71 @@
 
             if (rol === 'Estudiante') {
                 autoresLabel.textContent = 'Nombre Completo y Cédula de los Autores (Estudiantes)';
-                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Estudiante';
+                addBtnText.textContent = 'Agregar Estudiante';
                 tutorMetSection.style.display = '';
                 tutorEmpSection.style.display = '';
                 tipoTituloGroup.style.display = '';
             } else if (rol === 'Profesor') {
-                autoresLabel.textContent = 'Nombre Completo y Cédula del Profesor';
-                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Profesor';
+                autoresLabel.textContent = 'Nombre Completo y Cédula del Profesor(es)';
+                addBtnText.textContent = 'Agregar Profesor';
                 tutorMetSection.style.display = 'none';
                 tutorEmpSection.style.display = 'none';
                 tipoTituloGroup.style.display = 'none';
             } else if (rol === 'Administrativo') {
-                autoresLabel.textContent = 'Nombre Completo y Cédula del Administrativo';
-                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Administrativo';
+                autoresLabel.textContent = 'Nombre Completo y Cédula del Personal Administrativo';
+                addBtnText.textContent = 'Agregar Personal';
                 tutorMetSection.style.display = 'none';
                 tutorEmpSection.style.display = 'none';
                 tipoTituloGroup.style.display = 'none';
             } else if (rol === 'Obrero') {
-                autoresLabel.textContent = 'Nombre Completo y Cédula del Obrero';
-                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Obrero';
+                autoresLabel.textContent = 'Nombre Completo y Cédula del Personal Obrero';
+                addBtnText.textContent = 'Agregar Personal';
                 tutorMetSection.style.display = 'none';
                 tutorEmpSection.style.display = 'none';
                 tipoTituloGroup.style.display = 'none';
-            } else if (rol === 'Otros') {
-                autoresLabel.textContent = 'Nombre Completo y Cédula del Solicitante';
-                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Solicitante';
-                tutorMetSection.style.display = 'none';
-                tutorEmpSection.style.display = 'none';
-                tipoTituloGroup.style.display = 'none';
-            } else if (rol === 'NO APLICA') {
-                autoresLabel.textContent = 'Nombre Completo y Cédula del Solicitante';
-                addBtn.innerHTML = '<i class="bi bi-plus-lg"></i> Agregar Solicitante';
+            } else {
+                autoresLabel.textContent = 'Nombre Completo y Cédula del Solicitante(s)';
+                addBtnText.textContent = 'Agregar Solicitante';
                 tutorMetSection.style.display = 'none';
                 tutorEmpSection.style.display = 'none';
                 tipoTituloGroup.style.display = 'none';
             }
 
-            // Agregar un usuario inicial
-            addUser();
+            // Si la lista de autores está vacía, agregar uno por defecto
+            const usersList = document.getElementById('users-list');
+            if (usersList.children.length === 0) {
+                addUser();
+            }
         }
 
-        // ============================
-        // CAMBIO DE PROGRAMA DE FORMACIÓN
-        // ============================
+        // ========================================================
+        // GESTIÓN DE PROGRAMA DE FORMACIÓN & TÍTULO
+        // ========================================================
         function onProgramaChange() {
             const programa = document.getElementById('programa-formacion').value;
-            const programaOtroWrapper = document.getElementById('programa-otro-wrapper');
-
+            const wrapper = document.getElementById('programa-otro-wrapper');
             if (programa === 'Otro') {
-                programaOtroWrapper.classList.add('visible');
+                wrapper.classList.add('visible');
             } else {
-                programaOtroWrapper.classList.remove('visible');
+                wrapper.classList.remove('visible');
                 document.getElementById('programa-otro-input').value = '';
             }
         }
 
-        // ============================
-        // CAMBIO DE TIPO DE TÍTULO
-        // ============================
         function onTipoTituloChange() {
             const tipo = document.getElementById('tipo-titulo').value;
-            const tipoOtroWrapper = document.getElementById('tipo-titulo-otro-wrapper');
-
+            const wrapper = document.getElementById('tipo-titulo-otro-wrapper');
             if (tipo === 'Otros') {
-                tipoOtroWrapper.classList.add('visible');
+                wrapper.classList.add('visible');
             } else {
-                tipoOtroWrapper.classList.remove('visible');
+                wrapper.classList.remove('visible');
                 document.getElementById('tipo-titulo-otro-input').value = '';
             }
         }
 
-        // ============================
-        // TOGGLE NO APLICA PARA TUTORES
-        // ============================
+        // ========================================================
+        // GESTIÓN DE TUTORES (NO APLICA)
+        // ========================================================
         function toggleTutorSection(tipo) {
             const checkbox = document.getElementById(`no-aplica-tutor-${tipo}`);
             const fields = document.getElementById(`tutor-${tipo}-fields`);
@@ -404,7 +1180,6 @@
             if (checkbox.checked) {
                 fields.classList.add('collapsed');
                 badge.style.display = 'inline-block';
-                // Limpiar campos
                 document.getElementById(`tutor-${tipo}-nombre`).value = '';
                 document.getElementById(`tutor-${tipo}-cedula`).value = '';
             } else {
@@ -413,30 +1188,32 @@
             }
         }
 
-        // ============================
-        // GESTIÓN DE USUARIOS (AUTORES/PROFESORES)
-        // ============================
+        // ========================================================
+        // GESTIÓN DINÁMICA DE USUARIOS / AUTORES
+        // ========================================================
         function addUser() {
             const usersList = document.getElementById('users-list');
             const userDiv = document.createElement('div');
-            userDiv.className = 'row align-items-end mb-2';
+            userDiv.className = 'user-row';
             userDiv.innerHTML = `
-                <div class="col-md-5 mb-2 mb-md-0">
-                    <input type="text" class="form-control nombre-input" placeholder="Nombre Completo" required>
-                </div>
-                <div class="col-md-2 mb-2 mb-md-0">
-                    <select class="form-select tipo-ci-select">
-                        <option value="V">V</option>
-                        <option value="E">E</option>
-                    </select>
-                </div>
-                <div class="col-md-3 mb-2 mb-md-0">
-                    <input type="text" class="form-control cedula-input" placeholder="Cédula" required pattern="\\d+">
-                </div>
-                <div class="col-md-2 text-end">
-                    <button type="button" class="btn btn-danger btn-sm remove-user-btn" onclick="removeUser(this)">
-                        <i class="bi bi-dash-lg"></i>
-                    </button>
+                <div class="user-row-grid">
+                    <div class="user-col-name">
+                        <input type="text" class="form-control form-control-sm nombre-input" placeholder="Nombre y Apellido Completo" required>
+                    </div>
+                    <div class="user-col-ci">
+                        <div class="input-group input-group-sm">
+                            <select class="form-select tipo-ci-select" style="max-width: 65px; flex: 0 0 65px;">
+                                <option value="V">V</option>
+                                <option value="E">E</option>
+                            </select>
+                            <input type="text" class="form-control cedula-input" placeholder="Cédula (ej: 12345678)" inputmode="numeric" maxlength="10" required>
+                        </div>
+                    </div>
+                    <div class="user-col-action text-end">
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-user-btn" onclick="removeUser(this)" title="Eliminar autor">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
                 </div>
             `;
             usersList.appendChild(userDiv);
@@ -445,37 +1222,8 @@
             setCedulaInputEvents(userDiv.querySelector('.cedula-input'));
         }
 
-        function setNombreInputEvents(input) {
-            input.addEventListener('input', function () {
-                let value = this.value.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]/g, '');
-                value = value.toUpperCase();
-                this.value = value;
-            });
-        }
-
-        function setCedulaInputEvents(input) {
-            input.addEventListener('input', function () {
-                this.value = this.value.replace(/\D/g, '');
-            });
-        }
-
-        // Eventos para los campos de tutores
-        function initTutorInputEvents() {
-            // Tutor Metodológico
-            const tmNombre = document.getElementById('tutor-metodologico-nombre');
-            const tmCedula = document.getElementById('tutor-metodologico-cedula');
-            setNombreInputEvents(tmNombre);
-            setCedulaInputEvents(tmCedula);
-
-            // Tutor Empresarial o de Contenido
-            const teNombre = document.getElementById('tutor-empresarial-nombre');
-            const teCedula = document.getElementById('tutor-empresarial-cedula');
-            setNombreInputEvents(teNombre);
-            setCedulaInputEvents(teCedula);
-        }
-
         function removeUser(btn) {
-            const userDiv = btn.closest('.row');
+            const userDiv = btn.closest('.user-row');
             userDiv.remove();
             updateRemoveButtons();
         }
@@ -483,193 +1231,331 @@
         function updateRemoveButtons() {
             const usersList = document.getElementById('users-list');
             const removeBtns = usersList.querySelectorAll('.remove-user-btn');
-            if (removeBtns.length === 1) {
-                removeBtns[0].style.display = 'none';
+            if (removeBtns.length <= 1) {
+                removeBtns.forEach(btn => btn.style.display = 'none');
             } else {
-                removeBtns.forEach(btn => btn.style.display = '');
+                removeBtns.forEach(btn => btn.style.display = 'inline-block');
             }
         }
 
-        // ============================
-        // OBTENER DATOS DE USUARIOS
-        // ============================
+        // Sanitización en tiempo real de entradas
+        function setNombreInputEvents(input) {
+            if (!input) return;
+            input.addEventListener('input', function () {
+                let value = this.value.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s\.]/g, '');
+                value = value.toUpperCase();
+                this.value = value;
+            });
+        }
+
+        function setCedulaInputEvents(input) {
+            if (!input) return;
+            input.addEventListener('input', function () {
+                this.value = this.value.replace(/\D/g, '');
+            });
+        }
+
+        function initTutorInputEvents() {
+            setNombreInputEvents(document.getElementById('tutor-metodologico-nombre'));
+            setCedulaInputEvents(document.getElementById('tutor-metodologico-cedula'));
+            setNombreInputEvents(document.getElementById('tutor-empresarial-nombre'));
+            setCedulaInputEvents(document.getElementById('tutor-empresarial-cedula'));
+        }
+
+        // ========================================================
+        // VISTA PREVIA DEL REPOSITORIO Y CONTADORES
+        // ========================================================
+        function sanitizeSlug(text) {
+            return (text || '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+        }
+
+        function updateRepoSlugPreview() {
+            const input = document.getElementById('project-name');
+            const preview = document.getElementById('slug-text');
+            const counter = document.getElementById('repo-name-counter');
+            const val = input.value;
+            const slug = sanitizeSlug(val);
+
+            counter.textContent = `${val.length} / 70`;
+
+            if (slug) {
+                preview.textContent = `<usuario>-${slug}`;
+            } else {
+                preview.textContent = `<tu-usuario>-...`;
+            }
+        }
+
+        function updateDescCounter() {
+            const desc = document.getElementById('project-description').value;
+            document.getElementById('desc-counter').textContent = `${desc.length} caracteres`;
+        }
+
+        // ========================================================
+        // EXTRACCIÓN Y VALIDACIÓN DE DATOS
+        // ========================================================
         function getUsersData() {
             const usersList = document.getElementById('users-list');
             const users = [];
+            const errors = [];
+
+            let index = 1;
             for (const row of usersList.children) {
                 const name = row.querySelector('.nombre-input').value.trim();
                 const type = row.querySelector('.tipo-ci-select').value;
-                const cedulaInput = row.querySelector('.cedula-input');
-                let cedula = cedulaInput.value.trim().replace(/\D/g, '');
-                if (name && cedula) {
-                    users.push(`${name} C.I.: ${type}-${cedula}`);
+                const cedula = row.querySelector('.cedula-input').value.trim();
+
+                if (!name && !cedula) {
+                    errors.push(`El autor #${index} está completamente vacío.`);
+                } else if (!name) {
+                    errors.push(`El autor #${index} no tiene nombre completo.`);
+                } else if (!cedula || cedula.length < 5) {
+                    errors.push(`El autor #${index} (${name}) requiere una cédula válida (mínimo 5 dígitos).`);
+                } else {
+                    users.push({ index, text: `${name} C.I.: ${type}-${cedula}` });
                 }
+                index++;
             }
-            return users;
+            return { users, errors };
         }
 
-        // ============================
-        // OBTENER DATOS DE TUTORES
-        // ============================
         function getTutorData(tipo) {
             const noAplica = document.getElementById(`no-aplica-tutor-${tipo}`).checked;
             if (noAplica) {
-                return 'NO APLICA';
+                return { isNoAplica: true, text: 'NO APLICA' };
             }
             const nombre = document.getElementById(`tutor-${tipo}-nombre`).value.trim();
             const tipoCi = document.getElementById(`tutor-${tipo}-tipo-ci`).value;
             const cedula = document.getElementById(`tutor-${tipo}-cedula`).value.trim().replace(/\D/g, '');
-            if (nombre && cedula) {
-                return `${nombre} C.I.: ${tipoCi}-${cedula}`;
+
+            if (nombre && cedula && cedula.length >= 5) {
+                return { isNoAplica: false, text: `${nombre} C.I.: ${tipoCi}-${cedula}` };
             }
-            return '';
+            return { isNoAplica: false, text: '' };
         }
 
-        // ============================
-        // OBTENER ROL FINAL (resuelve "Otros")
-        // ============================
         function getRolFinal() {
             const rol = document.getElementById('rol-solicitante').value;
             if (rol === 'Otros') {
-                const otroVal = document.getElementById('rol-otro-input').value.trim();
-                return otroVal ? `Otros: ${otroVal}` : 'Otros';
+                const val = document.getElementById('rol-otro-input').value.trim();
+                return val ? `Otros: ${val}` : 'Otros';
             }
             return rol;
         }
 
-        // ============================
-        // OBTENER PROGRAMA FINAL (resuelve "Otro")
-        // ============================
         function getProgramaFinal() {
             const programa = document.getElementById('programa-formacion').value;
             if (programa === 'Otro') {
-                const otroVal = document.getElementById('programa-otro-input').value.trim();
-                return otroVal ? `Otro: ${otroVal}` : 'Otro';
+                const val = document.getElementById('programa-otro-input').value.trim();
+                return val ? `Otro: ${val}` : 'Otro';
             }
             return programa;
         }
 
-        // ============================
-        // OBTENER TIPO TÍTULO FINAL (resuelve "Otros")
-        // ============================
         function getTipoTituloFinal() {
             const tipo = document.getElementById('tipo-titulo').value;
             if (tipo === 'Otros') {
-                const otroVal = document.getElementById('tipo-titulo-otro-input').value.trim();
-                return otroVal ? `Otros: ${otroVal}` : 'Otros';
+                const val = document.getElementById('tipo-titulo-otro-input').value.trim();
+                return val ? `Otros: ${val}` : 'Otros';
             }
             return tipo;
         }
 
-        // ============================
-        // CREAR REPOSITORIO
-        // ============================
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return (text || '').replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function escapeJs(text) {
+            return (text || '').replace(/'/g, "\\'");
+        }
+
+        // ========================================================
+        // CREACIÓN Y ENVÍO DEL ISSUE A GITHUB
+        // ========================================================
         function createRepo() {
             const rol = document.getElementById('rol-solicitante').value;
-            const projectName = document.getElementById('project-name').value;
-            const projectDescription = document.getElementById('project-description').value;
+            const projectName = document.getElementById('project-name').value.trim();
+            const projectDescription = document.getElementById('project-description').value.trim();
             const programaFormacion = document.getElementById('programa-formacion').value;
             const tipoTitulo = document.getElementById('tipo-titulo').value;
 
-            // Validaciones básicas
+            // 1. Validar Rol
             if (!rol) {
-                alert('Por favor, selecciona tu Rol de Solicitante.');
+                alert('Por favor, seleccione su Rol institucional.');
+                document.getElementById('rol-solicitante').focus();
                 return;
             }
             if (rol === 'Otros' && !document.getElementById('rol-otro-input').value.trim()) {
-                alert('Por favor, especifica tu rol en el campo de texto.');
+                alert('Por favor, especifique su rol en el campo de texto.');
+                document.getElementById('rol-otro-input').focus();
                 return;
             }
-            if (!projectName) {
-                alert('Por favor, escribe un nombre para tu repositorio.');
-                return;
-            }
+
+            // 2. Validar Programa de Formación
             if (!programaFormacion) {
-                alert('Por favor, selecciona el Programa de Formación.');
+                alert('Por favor, seleccione su Programa de Formación.');
+                document.getElementById('programa-formacion').focus();
                 return;
             }
             if (programaFormacion === 'Otro' && !document.getElementById('programa-otro-input').value.trim()) {
-                alert('Por favor, especifica el programa de formación en el campo de texto.');
-                return;
-            }
-            if (rol === 'Estudiante' && !tipoTitulo) {
-                alert('Por favor, selecciona el tipo de título.');
-                return;
-            }
-            if (rol === 'Estudiante' && tipoTitulo === 'Otros' && !document.getElementById('tipo-titulo-otro-input').value.trim()) {
-                alert('Por favor, especifica el tipo de producción intelectual en el campo de texto.');
+                alert('Por favor, especifique su Programa de Formación en el campo de texto.');
+                document.getElementById('programa-otro-input').focus();
                 return;
             }
 
-            const users = getUsersData();
-            if (users.length === 0) {
-                const rolLabel = rol === 'Estudiante' ? 'Estudiante' : (rol === 'Profesor' ? 'Profesor' : (rol === 'Administrativo' ? 'Administrativo' : (rol === 'Obrero' ? 'Obrero' : 'Solicitante')));
-                alert(`Debes agregar al menos un ${rolLabel} con Nombre y Cédula.`);
-                return;
-            }
-
-            // Validar tutores solo si el rol es Estudiante
+            // 3. Validar Título si es Estudiante
             if (rol === 'Estudiante') {
-                const noAplicaMet = document.getElementById('no-aplica-tutor-metodologico').checked;
-                const noAplicaEmp = document.getElementById('no-aplica-tutor-empresarial').checked;
-
-                if (!noAplicaMet) {
-                    const tutorMet = getTutorData('metodologico');
-                    if (!tutorMet) {
-                        alert('Por favor, completa los datos del Tutor Metodológico o marca "NO APLICA".');
-                        return;
-                    }
+                if (!tipoTitulo) {
+                    alert('Por favor, seleccione el tipo de título o producción intelectual.');
+                    document.getElementById('tipo-titulo').focus();
+                    return;
                 }
-                if (!noAplicaEmp) {
-                    const tutorEmp = getTutorData('empresarial');
-                    if (!tutorEmp) {
-                        alert('Por favor, completa los datos del Tutor Empresarial o de Contenido o marca "NO APLICA".');
-                        return;
-                    }
+                if (tipoTitulo === 'Otros' && !document.getElementById('tipo-titulo-otro-input').value.trim()) {
+                    alert('Por favor, especifique el tipo de producción intelectual.');
+                    document.getElementById('tipo-titulo-otro-input').focus();
+                    return;
                 }
             }
 
-            // Obtener valores finales (resolviendo "Otros")
+            // 4. Validar Línea de Investigación / Áreas seleccionadas
+            if (selectedAreas.size === 0) {
+                alert('Por favor, seleccione al menos una Línea de Investigación o Área Temática del catálogo.');
+                document.getElementById('area-investigativa-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('area-search-input').focus();
+                return;
+            }
+
+            // 5. Validar Autores
+            const { users, errors } = getUsersData();
+            if (errors.length > 0) {
+                alert('Errores en los autores:\n- ' + errors.join('\n- '));
+                return;
+            }
+            if (users.length === 0) {
+                alert('Debe agregar al menos un autor/solicitante con Nombre Completo y Cédula válida.');
+                return;
+            }
+
+            // 6. Validar Tutores para Estudiantes
+            if (rol === 'Estudiante') {
+                const tutorMet = getTutorData('metodologico');
+                if (!tutorMet.isNoAplica && !tutorMet.text) {
+                    alert('Por favor, complete el Nombre y Cédula del Tutor Metodológico o marque la casilla "NO APLICA".');
+                    document.getElementById('tutor-metodologico-nombre').focus();
+                    return;
+                }
+
+                const tutorEmp = getTutorData('empresarial');
+                if (!tutorEmp.isNoAplica && !tutorEmp.text) {
+                    alert('Por favor, complete el Nombre y Cédula del Tutor Empresarial o marque la casilla "NO APLICA".');
+                    document.getElementById('tutor-empresarial-nombre').focus();
+                    return;
+                }
+            }
+
+            // 7. Validar Nombre del Repositorio
+            if (!projectName) {
+                alert('Por favor, escriba un nombre corto y descriptivo para su repositorio.');
+                document.getElementById('project-name').focus();
+                return;
+            }
+            const sanitizedSlug = sanitizeSlug(projectName);
+            if (!sanitizedSlug) {
+                alert('El nombre del repositorio debe contener al menos una letra o número.');
+                document.getElementById('project-name').focus();
+                return;
+            }
+
+            // 8. Validar Descripción del Proyecto
+            if (!projectDescription) {
+                alert('Por favor, ingrese la descripción completa de su proyecto para identificar de qué trata.');
+                document.getElementById('project-description').focus();
+                return;
+            }
+            if (projectDescription.length < 10) {
+                alert('La descripción del proyecto es demasiado corta. Por favor, indique con claridad el propósito o temática del trabajo.');
+                document.getElementById('project-description').focus();
+                return;
+            }
+
+            // Construir valores finales
             const rolFinal = getRolFinal();
             const programaFinal = getProgramaFinal();
             const tipoTituloFinal = getTipoTituloFinal();
 
-            // Construir el cuerpo del issue
-            const usersText = users.map((u, i) => `${rol} ${i + 1}: ${u}`).join('\n');
+            // Lista formateada de áreas
+            const areasArray = Array.from(selectedAreas);
+            const areasMarkdown = areasArray.map(a => `- ${a}`).join('\n');
+            const areasInline = areasArray.join(', ');
 
-            let issueBody = `**Rol del Solicitante:** ${rolFinal}\n**Programa de Formación:** ${programaFinal}`;
+            // Formatear autores
+            const usersMarkdown = users.map(u => `- **${rol} ${u.index}:** ${u.text}`).join('\n');
+
+            // Construcción estructurada del cuerpo del Issue en Markdown
+            let issueBody = `### 🏛️ Solicitud de Repositorio Institucional - UPTPC\n\n`;
+            issueBody += `**Rol del Solicitante:** ${rolFinal}\n`;
+            issueBody += `**Programa de Formación:** ${programaFinal}\n`;
 
             if (rol === 'Estudiante') {
-                issueBody += `\n**Para optar al título de:** ${tipoTituloFinal}`;
+                issueBody += `**Para optar al título de:** ${tipoTituloFinal}\n`;
             }
 
-            issueBody += `\n\n**${rol === 'Estudiante' ? 'Autor/Autores' : (rol === 'Profesor' ? 'Profesor(es)' : 'Solicitante(s)')}:**\n${usersText}`;
+            issueBody += `\n---\n\n`;
+            issueBody += `### 🔬 Línea(s) de Investigación / Área(s) Temática(s)\n`;
+            issueBody += `${areasMarkdown}\n\n`;
 
-            // Agregar tutores solo para Estudiantes
+            issueBody += `---\n\n`;
+            issueBody += `### 👥 ${rol === 'Estudiante' ? 'Autor(es) / Estudiante(s)' : (rol === 'Profesor' ? 'Profesor(es)' : 'Solicitante(s)')}\n`;
+            issueBody += `${usersMarkdown}\n\n`;
+
             if (rol === 'Estudiante') {
                 const tutorMet = getTutorData('metodologico');
                 const tutorEmp = getTutorData('empresarial');
-                issueBody += `\n\n**Tutor Metodológico:** ${tutorMet}`;
-                issueBody += `\n**Tutor Empresarial o de Contenido:** ${tutorEmp}`;
+                issueBody += `---\n\n`;
+                issueBody += `### 🎓 Asesoría y Tutoría\n`;
+                issueBody += `- **Tutor Metodológico:** ${tutorMet.text}\n`;
+                issueBody += `- **Tutor Empresarial o de Contenido:** ${tutorEmp.text}\n\n`;
             }
 
-            issueBody += `\n\n**Descripción Completa del Proyecto:**\n\n${projectDescription}`;
+            issueBody += `---\n\n`;
+            issueBody += `### 📋 Descripción Completa del Proyecto\n`;
+            issueBody += `${projectDescription}\n`;
 
+            // Título requerido por la GitHub Action: "Crear mi repositorio <nombre>"
             const issueTitle = `Crear mi repositorio ${projectName}`;
+
+            // Codificar parámetros URL
             const encodedTitle = encodeURIComponent(issueTitle);
             const encodedBody = encodeURIComponent(issueBody);
 
             const repoUrl = `https://github.com/UPTPC/proyecto-automatizacion/issues/new?title=${encodedTitle}&body=${encodedBody}`;
 
+            // Indicador visual en botón
+            const submitBtn = document.getElementById('btn-submit');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span>Redirigiendo a GitHub...</span>
+            `;
+
             window.location.href = repoUrl;
         }
 
-        // ============================
-        // INICIALIZACIÓN
-        // ============================
+        // ========================================================
+        // INICIALIZACIÓN AL CARGAR LA PÁGINA
+        // ========================================================
         document.addEventListener('DOMContentLoaded', () => {
+            renderAreasGrid('');
+            renderSelectedChips();
             initTutorInputEvents();
-            // No agregar usuario hasta que se seleccione un rol
+            // Seleccionar estudiante por defecto para guiar al usuario
+            document.getElementById('rol-solicitante').value = 'Estudiante';
+            onRolChange();
         });
     </script>
 </body>
